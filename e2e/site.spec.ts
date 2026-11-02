@@ -47,6 +47,7 @@ test.describe('phones', () => {
   test.use({ viewport: { width: 360, height: 780 } });
   for (const locale of ['en', 'ar'] as const) {
     test(`no page scrolls sideways (${locale})`, async ({ page }) => {
+      test.setTimeout(120_000); // visits every page
       await setup(page, { locale });
       for (const route of routes) {
         await page.goto(route);
@@ -189,6 +190,7 @@ test('back-to-top appears after scrolling and returns to the top', async ({ page
   await setup(page);
   await page.goto('/');
   const button = page.getByRole('button', { name: 'Back to top' });
+  await page.locator('h1').first().waitFor();
   await page.evaluate(() => window.scrollTo(0, 2000));
   await expect(button).toHaveAttribute('tabindex', '0');
   await button.click();

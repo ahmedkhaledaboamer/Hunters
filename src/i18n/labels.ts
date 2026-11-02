@@ -1,59 +1,9 @@
 import { useCallback } from 'react';
 import { useLocale } from '../features/preferences/usePreferences';
-
-/**
- * Arabic for the short uppercase labels (eyebrows, phase names) that are written in English in the code.
- * Keyed by the English text, so a label added without a translation simply stays in English.
- */
-const ar: Record<string, string> = {
-  'ABOUT H HUNTERS': 'عن اتش هانترز',
-  'AI FOR CUSTOMER SERVICE & SALES': 'الذكاء الاصطناعي لخدمة العملاء والمبيعات',
-  'BECOME A PARTNER': 'كن شريكاً',
-  'BEYOND AUTOMATION': 'ما بعد الأتمتة',
-  'BOOK A CONSULTATION': 'احجز استشارة',
-  CAREERS: 'الوظائف',
-  CHALLENGES: 'التحديات',
-  'COMPANY HISTORY': 'مسيرة الشركة',
-  CONTACT: 'تواصل معنا',
-  'CORE EXPERTISE': 'مجالات التخصص',
-  'EXECUTIVE INTELLIGENCE': 'الذكاء التنفيذي',
-  'GOVERNANCE & TRUST': 'الحوكمة والثقة',
-  'H HUNTERS': 'اتش هانترز',
-  'H HUNTERS SOLUTIONS': 'حلول اتش هانترز',
-  'H HUNTERS TECHNOLOGY SOLUTIONS': 'اتش هانترز لحلول التكنولوجيا',
-  'HOW WE WORK': 'كيف نعمل',
-  'INDUSTRIES WE SERVE': 'القطاعات التي نخدمها',
-  "LET'S BUILD WHAT'S NEXT": 'لنبنِ المستقبل معاً',
-  'NEWS & INSIGHTS': 'الأخبار والرؤى',
-  'OPEN POSITIONS': 'الوظائف المتاحة',
-  'OUR COMMITMENT': 'التزامنا',
-  'OUR DELIVERY FRAMEWORK': 'إطار التنفيذ لدينا',
-  'OUR ENGAGEMENT MODELS': 'نماذج التعاون',
-  'OUR FUTURE': 'مستقبلنا',
-  'OUR MISSION': 'رسالتنا',
-  'OUR PHILOSOPHY': 'فلسفتنا',
-  'OUR VALUE PROPOSITION': 'القيمة التي نقدمها',
-  'OUR VISION': 'رؤيتنا',
-  'REGIONAL REACH': 'الانتشار الإقليمي',
-  'RELATED SERVICES': 'خدمات ذات صلة',
-  SOLUTIONS: 'الحلول',
-  'STRATEGIC LOCATION': 'الموقع الاستراتيجي',
-  'STRATEGIC PARTNERSHIPS': 'الشراكات الاستراتيجية',
-  SUMMARY: 'الملخص',
-  'THE INTELLIGENT BUSINESS MODEL': 'نموذج الأعمال الذكي',
-  'WHO WE ARE': 'من نحن',
-  'WHY H HUNTERS': 'لماذا اتش هانترز',
-  // Delivery phase names
-  Discover: 'الاكتشاف',
-  Architect: 'التصميم',
-  'Build & Integrate': 'البناء والتكامل',
-  Validate: 'التحقق',
-  'Deploy & Enable': 'الإطلاق والتمكين',
-  Optimize: 'التحسين'
-};
+import { arLabels } from './labelMap';
 
 /** Returns a translator for English-authored labels in the active locale. */
 export function useLabel() {
   const locale = useLocale();
-  return useCallback((label: string) => (locale === 'ar' ? ar[label] ?? label : label), [locale]);
+  return useCallback((label: string) => (locale === 'ar' ? arLabels[label] ?? label : label), [locale]);
 }
