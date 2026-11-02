@@ -153,6 +153,8 @@ function heroShell(): Plugin {
   }
   return {
     name: 'hero-shell',
+    // Build only: in dev, Vite injects CSS from JavaScript, so a static copy would flash unstyled on refresh.
+    apply: 'build',
     transformIndexHtml: (html) => html.replace('<div id="root"></div>', () => `<div id="root">\n      ${render('ar')}\n      ${render('en')}\n    </div>`),
   }
 }
