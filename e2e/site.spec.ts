@@ -7,11 +7,15 @@ const routes = [
 type Prefs = {theme?: 'dark' | 'light';locale?: 'ar' | 'en';};
 
 /** Saves preferences before any app code runs, and records every console error / uncaught exception. */
-async function setup(page: Page, prefs: Prefs = {}) {
+async function setup(page: Page, prefs: Prefs = {}, intro = false) {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => {if (m.type() === 'error') errors.push(m.text());});
-  await page.addInitScript((p) => localStorage.setItem('hh:preferences', JSON.stringify({ theme: 'dark', locale: 'en', ...p })), prefs);
+  await page.addInitScript(({ p, intro }) => {
+    localStorage.setItem('hh:preferences', JSON.stringify({ theme: 'dark', locale: 'en', ...p }));
+    // Skip the once-per-session intro unless a test is about it.
+    if (!intro) sessionStorage.setItem('hh:intro', '1');
+  }, { p: prefs, intro });
   return errors;
 }
 
@@ -170,9 +174,7 @@ test('newsletter validates the email without page errors', async ({ page }) => {
 
 test.describe('preloader', () => {
   test('plays once per session, then gets out of the way', async ({ page }) => {
-    // Tests normally skip the intro (navigator.webdriver); pretend to be a regular visitor here.
-    await page.addInitScript(() => Object.defineProperty(navigator, 'webdriver', { get: () => false }));
-    await setup(page);
+    await setup(page, {}, true);
     await page.goto('/');
     await expect(page.locator('#preloader')).toBeVisible();
     await expect(page.locator('#preloader')).toHaveCount(0, { timeout: 8000 });

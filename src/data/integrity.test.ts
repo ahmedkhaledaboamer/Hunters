@@ -40,7 +40,7 @@ describe('content integrity', () => {
     for (const src of images) {
       expect(existsSync(publicFile(src)), src).toBe(true);
       if (!src.endsWith('.webp')) continue;
-      for (const w of [160, 320, 640]) expect(existsSync(publicFile(src.replace(/\.webp$/, `-${w}.webp`))), `${src} @${w}`).toBe(true);
+      for (const w of [160, 320, 640, 960]) expect(existsSync(publicFile(src.replace(/\.webp$/, `-${w}.webp`))), `${src} @${w}`).toBe(true);
     }
   });
 

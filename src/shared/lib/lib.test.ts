@@ -18,7 +18,7 @@ describe('cn', () => {
 
 describe('image helpers', () => {
   it('builds a srcset for project photos only', () => {
-    expect(photoSrcSet('/a.webp')).toBe('/a-320.webp 320w, /a-640.webp 640w, /a.webp 1376w');
+    expect(photoSrcSet('/a.webp')).toBe('/a-320.webp 320w, /a-640.webp 640w, /a-960.webp 960w, /a.webp 1376w');
     expect(photoSrcSet('/og-image.jpg')).toBeUndefined();
     expect(photoSmall('/a.webp')).toBe('/a-160.webp');
   });
