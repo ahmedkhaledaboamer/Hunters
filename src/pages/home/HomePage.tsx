@@ -23,6 +23,7 @@ import { AnimatedCounter } from '../../shared/ui/AnimatedCounter';
 import { Reveal, RevealGroup, RevealItem } from '../../shared/motion/Reveal';
 import { SplitText } from '../../shared/motion/SplitText';
 import { photoSrcSet } from '../../shared/lib/image';
+import { Deferred } from '../../shared/ui/Deferred';
 
 export function HomePage() {
   const { t } = useTranslation();
@@ -31,6 +32,8 @@ export function HomePage() {
   return (
     <>
       <HeroSlider />
+      {/* Everything below the hero mounts after first paint (see Deferred). */}
+      <Deferred>
       <WhoWeAre />
       <Expertise />
 
@@ -118,6 +121,7 @@ export function HomePage() {
 
       <LatestNews />
       <LocationTeaser />
+      </Deferred>
     </>);
 
 }

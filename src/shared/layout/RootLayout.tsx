@@ -1,4 +1,4 @@
-import { forwardRef, useState, type ReactNode } from 'react';
+import { forwardRef, useEffect, useState, type ReactNode } from 'react';
 import { ScrollRestoration, useLocation, useOutlet } from 'react-router-dom';
 import { AnimatePresence, LayoutGroup, MotionConfig, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import { CustomCursor } from './CustomCursor';
 import { RouteProgress } from './RouteProgress';
 import { FloatingCta } from './FloatingCta';
 import { LogoMark } from '../ui/Logo';
+import { BackToTop, ScrollProgress, SmoothScroll } from './SmoothScroll';
 
 /** Keeps the outgoing page's element stable while it animates out. */
 function FrozenOutlet() {
@@ -37,6 +38,11 @@ export function RootLayout() {
   const { t } = useTranslation();
   const location = useLocation();
 
+  // Let the HTML preloader (index.html) know the first page is on screen.
+  useEffect(() => {
+    requestAnimationFrame(() => window.__hhReady?.());
+  }, []);
+
   return (
     <MotionConfig reducedMotion="user">
       <a
@@ -45,6 +51,8 @@ export function RootLayout() {
         
         {t('nav.skip')}
       </a>
+      <SmoothScroll />
+      <ScrollProgress />
       <RouteProgress />
       <Header />
       <LayoutGroup>
@@ -58,6 +66,7 @@ export function RootLayout() {
       </LayoutGroup>
       <Footer />
       <FloatingCta />
+      <BackToTop />
       <CustomCursor />
       <ScrollRestoration />
     </MotionConfig>);

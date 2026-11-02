@@ -119,6 +119,7 @@ export function HeroSlider() {
                   <SplitText
                     as={Heading}
                     active={active}
+                    instant={i === 0}
                     delay={0.1}
                     text={l(slide.title)}
                     className="mt-7 max-w-6xl text-display font-extralight tracking-[-0.035em] text-fg rtl:font-light rtl:leading-[1.2] rtl:tracking-normal" />
@@ -166,12 +167,12 @@ export function HeroSlider() {
                   <span
                   dir="ltr"
                   className={cn(
-                    'block font-latin text-xs tabular-nums transition-colors duration-150',
+                    'block whitespace-nowrap font-latin text-xs tabular-nums transition-colors duration-150',
                     i === selected ? 'text-fg' : 'text-muted group-hover:text-fg'
                   )}>
                   
                     {String(i + 1).padStart(2, '0')}
-                    <span className="text-muted"> — {String(heroSlides.length).padStart(2, '0')}</span>
+                    <span className="text-muted max-sm:hidden"> — {String(heroSlides.length).padStart(2, '0')}</span>
                   </span>
                   <span className="relative mt-3 block h-px w-full overflow-hidden bg-line-strong">
                     <motion.span

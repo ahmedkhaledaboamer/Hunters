@@ -5,6 +5,7 @@ import { X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '../lib/cn';
 import { EASE_OUT } from '../motion/variants';
+import { lockScroll, unlockScroll } from '../lib/scroll';
 
 interface ModalProps {
   open: boolean;
@@ -21,7 +22,7 @@ export function Modal({ open, onClose, title, children, variant = 'dialog' }: Mo
   useEffect(() => {
     if (!open) return;
     const previous = document.activeElement as HTMLElement | null;
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
       if (e.key === 'Tab' && panelRef.current) {
@@ -41,7 +42,7 @@ export function Modal({ open, onClose, title, children, variant = 'dialog' }: Mo
     window.addEventListener('keydown', onKey);
     requestAnimationFrame(() => panelRef.current?.focus());
     return () => {
-      document.body.style.overflow = '';
+      unlockScroll();
       window.removeEventListener('keydown', onKey);
       previous?.focus();
     };
@@ -90,7 +91,7 @@ export function Modal({ open, onClose, title, children, variant = 'dialog' }: Mo
                 <X className="size-5" aria-hidden />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-6">{children}</div>
+            <div data-lenis-prevent className="flex-1 overflow-y-auto p-6">{children}</div>
           </motion.div>
         </div>
       }

@@ -14,7 +14,8 @@ export function LanguageToggle({ className }: {className?: string;}) {
     <button
       type="button"
       onClick={() => dispatch(setLocale(next))}
-      aria-label={t('prefs.switchLanguageLabel')}
+      // The visible label is the accessible name (it must match what voice-control users see); the hint is a tooltip.
+      title={t('prefs.switchLanguageLabel')}
       lang={next}
       className={cn(
         'inline-flex h-10 min-w-10 items-center justify-center rounded-full border border-line px-3 text-sm font-medium text-fg transition-colors duration-150 hover:border-line-strong hover:bg-fg/5',

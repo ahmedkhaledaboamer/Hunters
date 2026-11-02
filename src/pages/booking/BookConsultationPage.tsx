@@ -21,6 +21,7 @@ import { Eyebrow } from '../../shared/ui/SectionHeading';
 import { SplitText } from '../../shared/motion/SplitText';
 import { EASE_OUT } from '../../shared/motion/variants';
 import { cn } from '../../shared/lib/cn';
+import { scrollToTarget } from '../../shared/lib/scroll';
 
 const steps = [StepService, StepConsultant, StepMeeting, StepDateTime, StepDetails];
 
@@ -37,7 +38,7 @@ export function BookConsultationPage() {
 
   useEffect(() => {
     const el = panelRef.current;
-    if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (el && el.getBoundingClientRect().top < 0) scrollToTarget(el, -112);
   }, [step]);
 
   const canContinue = [!!booking.serviceSlug, !!booking.consultantId, true, !!booking.date && !!booking.time, true, true][step];

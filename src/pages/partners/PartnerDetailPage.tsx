@@ -36,7 +36,7 @@ export function PartnerDetailPage() {
     <>
       <Container className="pb-16 pt-36 md:pt-44">
         <Eyebrow>STRATEGIC PARTNERSHIPS</Eyebrow>
-        <div className="mt-8 text-fg [&_svg]:size-14 [&_span]:text-4xl"><PartnerLogo monogram={p.monogram} name={p.name} /></div>
+        <h1 className="mt-8 font-normal text-fg [&_svg]:size-14 [&_span]:text-4xl"><PartnerLogo monogram={p.monogram} name={p.name} /></h1>
         <div className="mt-6 flex flex-wrap gap-2">
           <Badge tone="accent">{t(`partners.categories.${p.category}`)}</Badge>
           <Badge tone="outline">{l(p.type)}</Badge>

@@ -13,6 +13,7 @@ import { QueryState } from '../../shared/ui/QueryState';
 import { Skeleton } from '../../shared/ui/Skeleton';
 import { EASE_OUT } from '../../shared/motion/variants';
 import { ScrollFill } from '../../shared/motion/ScrollFill';
+import { scrollToTarget } from '../../shared/lib/scroll';
 
 export function HistoryPage() {
   const { t } = useTranslation();
@@ -37,7 +38,10 @@ export function HistoryPage() {
     return () => observer.disconnect();
   }, [milestones.length]);
 
-  const jump = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const jump = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) scrollToTarget(el, -(window.innerHeight / 2 - el.offsetHeight / 2));
+  };
 
   return (
     <>

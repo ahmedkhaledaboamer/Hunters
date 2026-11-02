@@ -73,6 +73,6 @@ export const contactInfo = {
 };
 
 /** Dialable form of a display phone number, for tel: links. */
-export const telHref = (phone: string) => `tel:${phone.replace(/[^+d]/g, '')}`;
+export const telHref = (phone: string) => `tel:${phone.replace(/[^+\d]/g, '')}`;
 /** True while a contact value is still a bracketed placeholder. */
 export const isPlaceholder = (value: string) => value.startsWith('[');

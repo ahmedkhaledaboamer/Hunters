@@ -14,19 +14,21 @@ interface SplitTextProps {
   trigger?: 'view' | 'mount';
   /** When provided, the reveal is controlled externally (e.g. slider slides). */
   active?: boolean;
+  /** Start fully shown on mount (no entrance) — for above-the-fold headings, so they paint immediately. */
+  instant?: boolean;
 }
 
 /**
  * Word-by-word reveal. Splits on whitespace only — never by letter —
  * so Arabic letter joining is always preserved.
  */
-export function SplitText({ text, as = 'h2', className, delay = 0, trigger = 'view', active }: SplitTextProps) {
+export function SplitText({ text, as = 'h2', className, delay = 0, trigger = 'view', active, instant = false }: SplitTextProps) {
   const reduce = useReducedMotion();
   const words = text.split(/\s+/).filter(Boolean);
   const MotionTag = motion[as] as typeof motion.h2;
   const triggerProps =
   active !== undefined ?
-  { initial: 'hidden', animate: active ? 'visible' : 'hidden' } :
+  { initial: instant ? false : 'hidden', animate: active ? 'visible' : 'hidden' } :
   trigger === 'view' ?
   { initial: 'hidden', whileInView: 'visible', viewport: { once: true, amount: 0.5 } } :
   { initial: 'hidden', animate: 'visible' };

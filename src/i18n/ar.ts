@@ -47,6 +47,7 @@ export const ar: Dictionary = {
     switchLanguageLabel: 'التبديل إلى الإنجليزية'
   },
   common: {
+    backToTop: 'العودة إلى الأعلى',
     exploreSolutions: 'استكشف الحلول',
     learnMore: 'اعرف المزيد',
     viewAll: 'عرض الكل',

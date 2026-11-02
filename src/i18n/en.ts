@@ -45,6 +45,7 @@ export const en = {
     switchLanguageLabel: 'Switch to Arabic'
   },
   common: {
+    backToTop: 'Back to top',
     exploreSolutions: 'Explore Solutions',
     learnMore: 'Learn more',
     viewAll: 'View all',

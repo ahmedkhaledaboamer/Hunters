@@ -17,9 +17,35 @@
         var l = p.locale === 'en' ? 'en' : 'ar';
         d.lang = l;
         d.dir = l === 'ar' ? 'rtl' : 'ltr';
+        if (sessionStorage.getItem('hh:intro') || navigator.webdriver || matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('pl-off');
+        else d.classList.add('pl-active');
       } catch (e) {}
     </script>
     <style>html{background:#000}html:not(.dark){background:#e3e5dc}</style>
+    <style>
+      #preloader{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:#000;color:#f4f5ef;transition:transform .9s cubic-bezier(.76,0,.24,1);will-change:transform}
+      html:not(.dark) #preloader{background:#e3e5dc;color:#050505}
+      .pl-off #preloader{display:none}
+      html.pl-active{overflow:hidden}
+      #preloader.pl-done{transform:translateY(-100%)}
+      .pl-center,.pl-foot{transition:opacity .45s ease,transform .6s cubic-bezier(.76,0,.24,1)}
+      #preloader.pl-done .pl-center,#preloader.pl-done .pl-foot{opacity:0;transform:translateY(-24px)}
+      .pl-center{display:flex;flex-direction:column;align-items:center}
+      .pl-mark{width:92px;height:auto;overflow:visible}
+      .pl-mark *{fill:#d7f71e;fill-opacity:0;stroke:#d7f71e;stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1;animation:pl-draw .9s cubic-bezier(.65,0,.35,1) forwards,pl-fill .45s ease .8s forwards}
+      html:not(.dark) .pl-mark *{stroke:#1a1a1a}
+      .pl-mark :nth-child(2){animation-delay:.12s,.9s}.pl-mark :nth-child(3){animation-delay:.24s,1s}.pl-mark :nth-child(4){animation-delay:.36s,1.05s}
+      .pl-word{margin-top:20px;font:200 15px/1 Jost,system-ui,sans-serif;letter-spacing:.6em;text-indent:.6em;opacity:0;animation:pl-up .7s ease .5s forwards}
+      .pl-foot{position:absolute;inset-inline:6vw;bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;font-family:Jost,system-ui,sans-serif}
+      .pl-tag{font-size:11px;letter-spacing:.3em;text-transform:uppercase;opacity:.55;max-width:50%}
+      .pl-count{font-weight:200;font-size:clamp(44px,8vw,96px);line-height:.8;font-variant-numeric:tabular-nums;direction:ltr}
+      .pl-count small{font-size:.35em;margin-inline-start:4px;color:#d7f71e}
+      .pl-line{position:absolute;inset-inline:0;bottom:0;height:2px;background:rgb(128 128 128/.22)}
+      #pl-bar{display:block;height:100%;background:#d7f71e;transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+      [dir=rtl] #pl-bar{transform-origin:right}
+      @keyframes pl-draw{to{stroke-dashoffset:0}}@keyframes pl-fill{to{fill-opacity:1}}
+      @keyframes pl-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    </style>
     <link rel="canonical" href="%VITE_SITE_URL%/" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -69,6 +95,47 @@
     </script>
   </head>
   <body>
+    <div id="preloader" aria-hidden="true">
+      <div class="pl-center">
+        <svg class="pl-mark" viewBox="0 0 112 100">
+          <rect x="34" y="4" width="15" height="92" rx="7.5" pathLength="1" />
+          <rect x="76" y="6" width="15" height="86" rx="7.5" pathLength="1" />
+          <rect x="16" y="43" width="90" height="13" rx="3" pathLength="1" />
+          <circle cx="13" cy="49.5" r="10" pathLength="1" />
+        </svg>
+        <div class="pl-word">HUNTERS</div>
+      </div>
+      <div class="pl-foot">
+        <span class="pl-tag">Engineering the Intelligence of Business</span>
+        <span class="pl-count"><span id="pl-num">0</span><small>%</small></span>
+      </div>
+      <div class="pl-line"><span id="pl-bar"></span></div>
+    </div>
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var el = document.getElementById('preloader');
+        if (!el || root.classList.contains('pl-off')) { if (el) el.remove(); window.__hhReady = function () {}; return; }
+        var num = document.getElementById('pl-num'), bar = document.getElementById('pl-bar');
+        var p = 0, ready = false, start = performance.now(), MIN = 1400;
+        function set(v) { p = v; num.textContent = String(Math.round(v)); bar.style.transform = 'scaleX(' + v / 100 + ')'; }
+        var tick = setInterval(function () {
+          var target = ready ? 100 : 90; // creep towards 90% until the app is ready, then finish
+          set(Math.min(target, p + Math.max(0.5, (target - p) * 0.07)));
+          if (ready && p >= 99.5 && performance.now() - start >= MIN) { clearInterval(tick); set(100); finish(); }
+        }, 30);
+        function finish() {
+          try { sessionStorage.setItem('hh:intro', '1'); } catch (e) {}
+          setTimeout(function () {
+            el.classList.add('pl-done');
+            root.classList.remove('pl-active');
+            setTimeout(function () { el.remove(); }, 1000);
+          }, 180);
+        }
+        window.__hhReady = function () { ready = true; };
+        setTimeout(window.__hhReady, 6000); // never hold the site hostage
+      })();
+    </script>
     <div id="root"></div>
     <noscript>
       <h1>H HUNTERS Technology Solutions</h1>

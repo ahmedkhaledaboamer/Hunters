@@ -11,17 +11,18 @@ import { EASE_OUT } from '../motion/variants';
 import { LanguageToggle } from './LanguageToggle';
 import { ThemeToggle } from './ThemeToggle';
 import { companyLinks, primaryNav } from './navigation';
+import { lockScroll, unlockScroll } from '../lib/scroll';
 
 export function MobileMenu({ open, onClose }: {open: boolean;onClose: () => void;}) {
   const { t } = useTranslation();
 
   useEffect(() => {
     if (!open) return;
-    document.body.style.overflow = 'hidden';
+    lockScroll();
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = '';
+      unlockScroll();
       window.removeEventListener('keydown', onKey);
     };
   }, [open, onClose]);
@@ -44,6 +45,7 @@ export function MobileMenu({ open, onClose }: {open: boolean;onClose: () => void
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
+        data-lenis-prevent
         className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-bg">
         
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid opacity-60" />
