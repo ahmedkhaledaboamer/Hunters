@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState, type ReactNode } from 'react';
+import { forwardRef, useState, type ReactNode } from 'react';
 import { ScrollRestoration, useLocation, useOutlet } from 'react-router-dom';
 import { AnimatePresence, LayoutGroup, MotionConfig, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -37,11 +37,6 @@ export function RootLayout() {
   usePreferencesSync();
   const { t } = useTranslation();
   const location = useLocation();
-
-  // Let the HTML preloader (index.html) know the first page is on screen.
-  useEffect(() => {
-    requestAnimationFrame(() => window.__hhReady?.());
-  }, []);
 
   return (
     <MotionConfig reducedMotion="user">

@@ -190,10 +190,13 @@ body::before {
   opacity: 0;
   transition: opacity 250ms var(--ease-out-expo);
   animation: beam-spin 3.2s linear infinite;
+  /* Repaints every frame (animated custom property), so only spin while visible. */
+  animation-play-state: paused;
 }
 .group:hover .border-beam,
 .group:focus-visible .border-beam {
   opacity: 1;
+  animation-play-state: running;
 }
 @keyframes beam-spin {
   to { --beam-angle: 360deg; }

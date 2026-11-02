@@ -7,15 +7,11 @@ const routes = [
 type Prefs = {theme?: 'dark' | 'light';locale?: 'ar' | 'en';};
 
 /** Saves preferences before any app code runs, and records every console error / uncaught exception. */
-async function setup(page: Page, prefs: Prefs = {}, intro = false) {
+async function setup(page: Page, prefs: Prefs = {}) {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => {if (m.type() === 'error') errors.push(m.text());});
-  await page.addInitScript(({ p, intro }) => {
-    localStorage.setItem('hh:preferences', JSON.stringify({ theme: 'dark', locale: 'en', ...p }));
-    // Skip the once-per-session intro unless a test is about it.
-    if (!intro) sessionStorage.setItem('hh:intro', '1');
-  }, { p: prefs, intro });
+  await page.addInitScript((p) => localStorage.setItem('hh:preferences', JSON.stringify({ theme: 'dark', locale: 'en', ...p })), prefs);
   return errors;
 }
 
@@ -173,17 +169,11 @@ test('newsletter validates the email without page errors', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test.describe('preloader', () => {
-  test('plays once per session, then gets out of the way', async ({ page }) => {
-    await setup(page, {}, true);
-    await page.goto('/');
-    await expect(page.locator('#preloader')).toBeVisible();
-    await expect(page.locator('#preloader')).toHaveCount(0, { timeout: 8000 });
-    await expect(page.locator('html')).not.toHaveClass(/pl-active/);
-    await page.reload();
-    await expect(page.locator('html')).toHaveClass(/pl-off/);
-    await expect(page.locator('#preloader')).toHaveCount(0);
-  });
+test('the home hero is on screen straight from the HTML, with no intro screen', async ({ page }) => {
+  await setup(page);
+  await page.goto('/');
+  await expect(page.locator('#preloader')).toHaveCount(0);
+  await expect(page.locator('h1').first()).toContainText('Engineering the Intelligence of Business');
 });
 
 test('back-to-top appears after scrolling and returns to the top', async ({ page }) => {
