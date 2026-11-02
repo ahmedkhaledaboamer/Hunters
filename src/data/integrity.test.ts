@@ -35,11 +35,12 @@ describe('content integrity', () => {
     for (const p of partners) for (const s of p.services) expect(serviceSlugs, `${p.slug} → service ${s}`).toContain(s);
   });
 
-  it('references images that exist, each with its 640px variant', () => {
+  it('references images that exist, each with its responsive variants', () => {
     const images = [...services, ...industries, ...news, headquarters].map((x) => x.image);
     for (const src of images) {
       expect(existsSync(publicFile(src)), src).toBe(true);
-      if (src.endsWith('.webp')) expect(existsSync(publicFile(src.replace(/\.webp$/, '-640.webp'))), `${src} small`).toBe(true);
+      if (!src.endsWith('.webp')) continue;
+      for (const w of [160, 320, 640]) expect(existsSync(publicFile(src.replace(/\.webp$/, `-${w}.webp`))), `${src} @${w}`).toBe(true);
     }
   });
 

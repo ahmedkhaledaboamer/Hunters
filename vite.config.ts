@@ -42,12 +42,37 @@ function seoFiles(siteUrl: string): Plugin {
   }
 }
 
+/**
+ * Inlines the small (~16 KB gzipped) stylesheet into index.html so the first paint doesn't wait on an extra
+ * request. The site is a single-page app, so the HTML is fetched once and nothing is lost to caching.
+ */
+function inlineCss(): Plugin {
+  return {
+    name: 'inline-css',
+    apply: 'build',
+    enforce: 'post',
+    generateBundle(_, bundle) {
+      const html = bundle['index.html']
+      if (!html || html.type !== 'asset') return
+      let source = String(html.source)
+      for (const [file, chunk] of Object.entries(bundle)) {
+        if (chunk.type !== 'asset' || !file.endsWith('.css')) continue
+        const link = source.match(new RegExp(`<link rel="stylesheet"[^>]*href="/${file.replace(/\./g, '\\.')}"[^>]*>`))
+        if (!link) continue
+        source = source.replace(link[0], () => `<style>${String(chunk.source)}</style>`)
+        delete bundle[file]
+      }
+      html.source = source
+    },
+  }
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const siteUrl = (loadEnv(mode, process.cwd(), '').VITE_SITE_URL || 'https://hhunters.ae').replace(/\/$/, '')
 
   return {
-    plugins: [react(), tailwindcss(), seoFiles(siteUrl)],
+    plugins: [react(), tailwindcss(), seoFiles(siteUrl), inlineCss()],
     build: {
       rollupOptions: {
         output: {

@@ -17,17 +17,24 @@ export function SmoothScroll() {
 
   useEffect(() => {
     if (reduce) return;
-    const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      autoRaf: true,
-      anchors: true
-    });
-    registerLenis(lenis);
+    let lenis: Lenis | null = null;
+    // Start once the browser is idle: Lenis measures the page on creation, which would force a layout during load.
+    const start = () => {
+      lenis = new Lenis({
+        duration: 1.1,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        autoRaf: true,
+        anchors: true
+      });
+      registerLenis(lenis);
+    };
+    const idle = window.requestIdleCallback ? window.requestIdleCallback(start, { timeout: 2000 }) : window.setTimeout(start, 500);
     return () => {
+      if (window.cancelIdleCallback) window.cancelIdleCallback(idle);else
+      window.clearTimeout(idle);
       registerLenis(null);
-      lenis.destroy();
+      lenis?.destroy();
     };
   }, [reduce]);
 

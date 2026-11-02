@@ -32,11 +32,11 @@ export function HomePage() {
   return (
     <>
       <HeroSlider />
-      {/* Everything below the hero mounts after first paint (see Deferred). */}
-      <Deferred>
-      <WhoWeAre />
-      <Expertise />
+      {/* Sections below the hero mount after first paint, one task each (see Deferred). */}
+      <Deferred placeholderHeight="100vh"><WhoWeAre /></Deferred>
+      <Deferred placeholderHeight="100vh"><Expertise /></Deferred>
 
+      <Deferred placeholderHeight="100vh">
       <Section glow="end" aria-labelledby="model-title">
         <SectionHeading id="model-title" eyebrow="THE INTELLIGENT BUSINESS MODEL" index="09" title={t('home.modelTitle')} description={t('home.modelBody')} />
         <div className="mt-16">
@@ -46,7 +46,9 @@ export function HomePage() {
           <p className="mt-12 max-w-3xl border-s-2 border-accent ps-5 text-sm leading-relaxed text-muted">{t('home.modelNote')}</p>
         </Reveal>
       </Section>
+      </Deferred>
 
+      <Deferred placeholderHeight="100vh">
       <Section className="border-y border-line bg-surface-2/40" aria-labelledby="framework-title">
         <SectionHeading
           id="framework-title"
@@ -64,7 +66,9 @@ export function HomePage() {
           <FrameworkStepper />
         </div>
       </Section>
+      </Deferred>
 
+      <Deferred placeholderHeight="100vh">
       <Section aria-labelledby="industries-title">
         <SectionHeading
           id="industries-title"
@@ -82,14 +86,18 @@ export function HomePage() {
           <IndustriesSlider />
         </div>
       </Section>
+      </Deferred>
 
+      <Deferred placeholderHeight="100vh">
       <Section glow="start" aria-labelledby="why-title">
         <SectionHeading id="why-title" eyebrow="WHY H HUNTERS" index="13" title={t('home.whyTitle')} description={t('home.whyBody')} />
         <div className="mt-14">
           <WhyBento />
         </div>
       </Section>
+      </Deferred>
 
+      <Deferred placeholderHeight="100vh">
       <Section className="overflow-hidden" aria-labelledby="partners-title">
         <SectionHeading
           id="partners-title"
@@ -118,10 +126,10 @@ export function HomePage() {
         </div>
         <p className="mt-6 text-xs text-muted">{t('home.partnersNote')}</p>
       </Section>
-
-      <LatestNews />
-      <LocationTeaser />
       </Deferred>
+
+      <Deferred placeholderHeight="100vh"><LatestNews /></Deferred>
+      <Deferred placeholderHeight="100vh"><LocationTeaser /></Deferred>
     </>);
 
 }
