@@ -109,18 +109,12 @@ export function HomePage() {
             </Button>
           } />
         
-        {/* Always-dark photo panel (the dark class keeps text light in light mode too). */}
-        <div className="dark relative mt-14 overflow-hidden rounded-3xl border border-line">
-          <img
-            src="/ee301a9f-03d5-4c3c-a2e6-ebdd895d3d68.webp" srcSet={photoSrcSet("/ee301a9f-03d5-4c3c-a2e6-ebdd895d3d68.webp")} sizes="100vw"
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="absolute inset-0 size-full object-cover opacity-55" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/55 to-black/90" />
-          <div aria-hidden className="absolute -top-1/2 start-1/2 size-[700px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(215_247_30/0.16),transparent)] rtl:translate-x-1/2" />
-          <div aria-hidden className="absolute inset-0 bg-grid opacity-40 [mask-image:radial-gradient(ellipse_at_center,#000_20%,transparent_75%)]" />
-          <div className="relative py-12 md:py-16">
+        {/* Frameless: the cards float over a soft lime glow, no panel or photo behind them. */}
+        <div className="relative mt-14">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute start-1/2 top-1/2 h-[520px] w-[min(1100px,100%)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(215_247_30/0.16),transparent)] rtl:translate-x-1/2" />
+          <div className="relative py-10 md:py-14">
             <PartnersMarquee />
           </div>
         </div>

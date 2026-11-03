@@ -83,6 +83,7 @@
   --grid-line: rgb(0 0 0 / 0.07);
   --grain-opacity: 0.035;
   --card-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 14px 36px -12px rgb(0 0 0 / 0.18);
+  --scroll-thumb: rgb(0 0 0 / 0.28);
   color-scheme: light;
 }
 .dark {
@@ -100,6 +101,7 @@
   --grid-line: rgb(255 255 255 / 0.045);
   --grain-opacity: 0.06;
   --card-shadow: none;
+  --scroll-thumb: rgb(255 255 255 / 0.2);
   color-scheme: dark;
 }
 html {
@@ -129,6 +131,36 @@ body::before {
   pointer-events: none;
   opacity: var(--grain-opacity);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Scrollbars: slim, theme-tinted thumb that turns lime on hover. Pure CSS, drawn natively by the browser. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  min-height: 56px; /* stays easy to see and grab on long pages */
+}
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-lime-500);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+/* Firefox has no ::-webkit-scrollbar; give it the thin, tinted version. (Kept out of Chromium, where these
+   standard properties would override the styles above.) */
+@supports (-moz-appearance: none) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) transparent;
+  }
 }
 ::selection {
   background: var(--color-lime-500);
@@ -244,8 +276,12 @@ body::before {
   }
 }
 /* Light theme: yellow accent text gets a thin dark outline (drawn under the fill) so it stays legible on light backgrounds. */
+/* Only where the text is lime right now: the plain class, or a hover variant while hovered. */
 html:not(.dark) .eyebrow,
-html:not(.dark) [class*='text-accent-ink'] {
+html:not(.dark) [class~='text-accent-ink'],
+html:not(.dark) [class~='hover:text-accent-ink']:hover,
+html:not(.dark) .group:hover [class~='group-hover:text-accent-ink'],
+html:not(.dark) .group\/card:hover [class~='group-hover/card:text-accent-ink'] {
   -webkit-text-stroke: 1.5px rgb(0 0 0 / 0.55);
   paint-order: stroke fill;
 }
