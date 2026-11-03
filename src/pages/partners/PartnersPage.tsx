@@ -55,7 +55,9 @@ export function PartnersPage() {
                         <Badge tone="outline">{l(p.type)}</Badge>
                       </div>
                       <p className="mt-6 text-muted">{l(p.description)}</p>
-                      <CardArrow className="mt-auto pt-8" />
+                      <div className="mt-auto pt-8">
+                        <CardArrow />
+                      </div>
                     </Link>
                   </RevealItem>
               )}
@@ -77,14 +79,18 @@ export function PartnersPage() {
 
 function PartnerForm() {
   const { t } = useTranslation();
-  const [submit, { isLoading }] = useSubmitFormMutation();
+  const [submit, { isLoading, isError }] = useSubmitFormMutation();
   const [sent, setSent] = useState(false);
   const schema = makePartnerSchema(t);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema), mode: 'onTouched' });
   const onSubmit = handleSubmit(async (values) => {
-    await submit({ kind: 'partner-applications', body: values }).unwrap();
-    reset();
-    setSent(true);
+    try {
+      await submit({ kind: 'partner-applications', body: values }).unwrap();
+      reset();
+      setSent(true);
+    } catch {
+
+      /* shown via isError */}
   });
   if (sent) return <p role="status" className="glass rounded-2xl p-8 text-lg text-fg">{t('partners.sent')}</p>;
   return (
@@ -96,6 +102,7 @@ function PartnerForm() {
         <Select id="p-type" placeholder="—" options={categories.map((c) => ({ value: c, label: t(`partners.categories.${c}`) }))} {...register('partnerType')} />
       </Field>
       <Field label={t('forms.message')} htmlFor="p-msg" error={errors.message?.message} className="sm:col-span-2"><Textarea id="p-msg" rows={4} {...register('message')} /></Field>
+      {isError && <p role="alert" className="text-sm text-red-600 dark:text-red-400">{t('common.sendError')}</p>}
       <Button type="submit" loading={isLoading} className="justify-self-start" arrow>{isLoading ? t('common.sending') : t('common.submit')}</Button>
     </form>);
 

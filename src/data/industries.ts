@@ -11,7 +11,7 @@ export const industries: Industry[] = [
   { ar: 'أتمتة الإجراءات', en: 'Procedure automation' },
   { ar: 'تطوير التقارير', en: 'Reporting development' }],
 
-  image: "/ee301a9f-03d5-4c3c-a2e6-ebdd895d3d68.webp",
+  image: "/industry-government.webp",
   challenges: [
   { ar: 'إجراءات ورقية متعددة الخطوات بين الإدارات.', en: 'Multi-step paper procedures spread across departments.' },
   { ar: 'صعوبة متابعة حالة الطلبات والمعاملات.', en: 'Limited visibility into request and transaction status.' },
@@ -28,7 +28,7 @@ export const industries: Industry[] = [
   { ar: 'المواعيد وتجربة المرضى', en: 'Appointments & patient experience' },
   { ar: 'تحليلات البيانات الطبية والتشغيلية', en: 'Clinical & operational analytics' }],
 
-  image: "/435c0ac9-60bc-42dc-91ab-62d53c7ffa2e.webp",
+  image: "/industry-healthcare.webp",
   challenges: [
   { ar: 'ملفات المرضى موزعة بين أنظمة منفصلة تصعّب الحصول على صورة كاملة.', en: 'Patient records spread across separate systems, with no single complete view.' },
   { ar: 'مواعيد وقوائم انتظار تُدار يدوياً وتؤثر على تجربة المريض.', en: 'Appointments and waiting lists handled manually, affecting the patient experience.' },
@@ -45,7 +45,7 @@ export const industries: Industry[] = [
   { ar: 'إدارة الطلبات', en: 'Order management' },
   { ar: 'تحليلات العملاء', en: 'Customer analytics' }],
 
-  image: "/fa3dec85-2592-4e88-bfb0-f93573d7c94f.webp",
+  image: "/industry-ecommerce-retail.webp",
   challenges: [
   { ar: 'قنوات بيع منفصلة عن المخزون والطلبات.', en: 'Sales channels disconnected from inventory and orders.' },
   { ar: 'بيانات عملاء غير موحدة تصعّب التخصيص.', en: 'Fragmented customer data that limits personalization.' },
@@ -63,7 +63,7 @@ export const industries: Industry[] = [
   { ar: 'الأصول', en: 'Assets' },
   { ar: 'البلاغات', en: 'Incident reporting' }],
 
-  image: "/7396decc-4313-4eb0-ba97-7222a3748381.webp",
+  image: "/industry-facility-management.webp",
   challenges: [
   { ar: 'أوامر عمل وبلاغات تُدار عبر الهاتف والرسائل.', en: 'Work orders and incidents managed over phone and chat.' },
   { ar: 'ضعف الرؤية على حالة الأصول وجداول الصيانة.', en: 'Little visibility into asset condition and maintenance schedules.' },
@@ -80,7 +80,7 @@ export const industries: Industry[] = [
   { ar: 'إدارة الخدمات', en: 'Service management' },
   { ar: 'أتمتة العمليات', en: 'Process automation' }],
 
-  image: "/435c0ac9-60bc-42dc-91ab-62d53c7ffa2e.webp",
+  image: "/industry-surveillance-smart-buildings.webp",
   challenges: [
   { ar: 'أنظمة ميدانية متعددة لا تتحدث مع بعضها.', en: 'Multiple field systems that do not talk to each other.' },
   { ar: 'تنبيهات كثيرة دون توجيه واضح للمسؤول.', en: 'High alert volume without clear routing to an owner.' },
@@ -97,7 +97,7 @@ export const industries: Industry[] = [
   { ar: 'المساعدات الذكية', en: 'Intelligent assistants' },
   { ar: 'إدارة تجربة العملاء', en: 'Customer experience management' }],
 
-  image: "/07e40ff4-c017-4ffd-ac58-71db8caa2838.webp",
+  image: "/industry-hospitality.webp",
   challenges: [
   { ar: 'ضغط الاستفسارات والحجوزات في أوقات الذروة.', en: 'Peak-time pressure on inquiries and reservations.' },
   { ar: 'تجربة عملاء غير متسقة بين الفروع والقنوات.', en: 'Inconsistent guest experience across branches and channels.' },
@@ -115,7 +115,7 @@ export const industries: Industry[] = [
   { ar: 'خدمة العملاء', en: 'Customer service' },
   { ar: 'إدارة العمليات', en: 'Operations management' }],
 
-  image: "/56f04271-342f-4245-851b-e193276f52bc.webp",
+  image: "/industry-service-companies.webp",
   challenges: [
   { ar: 'فرص بيع تضيع بسبب ضعف المتابعة.', en: 'Sales opportunities lost to weak follow-up.' },
   { ar: 'طلبات العملاء موزعة على قنوات متعددة.', en: 'Customer requests scattered across many channels.' },
@@ -131,7 +131,7 @@ export const industries: Industry[] = [
   { ar: 'تطوير المنتجات الرقمية', en: 'Digital product development' },
   { ar: 'المنصات القائمة على الاشتراكات', en: 'Subscription-based platforms' }],
 
-  image: "/ecc013b3-f668-4d9f-8041-25121ad57ea5.webp",
+  image: "/industry-tech-providers.webp",
   challenges: [
   { ar: 'الحاجة لإطلاق منتجات بسرعة دون التضحية بالجودة.', en: 'Shipping products quickly without sacrificing quality.' },
   { ar: 'بنية تقنية لا تواكب نمو المشتركين.', en: 'Architecture that struggles as subscribers grow.' },
@@ -148,7 +148,7 @@ export const industries: Industry[] = [
   { ar: 'تحليلات البيانات', en: 'Data analytics' },
   { ar: 'تكامل الأنظمة', en: 'Systems integration' }],
 
-  image: "/0dea776c-c90c-4260-98e0-fa38c7abb5f7.webp",
+  image: "/industry-industrial.webp",
   challenges: [
   { ar: 'إدارات تعمل بأنظمة وجداول منفصلة.', en: 'Departments running on separate systems and spreadsheets.' },
   { ar: 'تأخر وصول البيانات إلى الإدارة العليا.', en: 'Data reaching leadership too late to act on.' },

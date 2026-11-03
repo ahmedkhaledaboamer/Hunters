@@ -156,9 +156,13 @@ function Newsletter() {
     const message = validate(email);
     setError(message);
     if (message) return;
-    await submit({ kind: 'newsletter', body: { email: email.trim() } }).unwrap();
-    setEmail('');
-    setDone(true);
+    try {
+      await submit({ kind: 'newsletter', body: { email: email.trim() } }).unwrap();
+      setEmail('');
+      setDone(true);
+    } catch {
+      setError(t('common.sendError'));
+    }
   };
 
   return (

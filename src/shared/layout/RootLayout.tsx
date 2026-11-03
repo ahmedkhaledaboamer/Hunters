@@ -11,6 +11,7 @@ import { RouteProgress } from './RouteProgress';
 import { FloatingCta } from './FloatingCta';
 import { LogoMark } from '../ui/Logo';
 import { BackToTop, ScrollProgress, SmoothScroll } from './SmoothScroll';
+import { WhatsAppButton } from './WhatsAppButton';
 
 /** Keeps the outgoing page's element stable while it animates out. */
 function FrozenOutlet() {
@@ -62,6 +63,7 @@ export function RootLayout() {
       <Footer />
       <FloatingCta />
       <BackToTop />
+      <WhatsAppButton />
       <CustomCursor />
       <ScrollRestoration />
     </MotionConfig>);

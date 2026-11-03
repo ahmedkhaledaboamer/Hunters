@@ -46,7 +46,7 @@ export function ServicesPage() {
             isLoading={query.isLoading}
             isError={query.isError}
             onRetry={query.refetch}
-            skeleton={<CardSkeletonGrid count={8} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" itemClassName="h-[340px]" />}>
+            skeleton={<CardSkeletonGrid count={8} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" itemClassName="h-[420px]" />}>
             
             {() =>
             <motion.ul layout className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

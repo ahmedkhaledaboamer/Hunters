@@ -48,6 +48,8 @@ export const ar: Dictionary = {
   },
   common: {
     backToTop: 'العودة إلى الأعلى',
+    whatsapp: 'تواصل معنا عبر واتساب',
+    whatsappMessage: 'مرحباً اتش هانترز، أود معرفة المزيد عن خدماتكم.',
     exploreSolutions: 'استكشف الحلول',
     learnMore: 'اعرف المزيد',
     viewAll: 'عرض الكل',
@@ -58,6 +60,7 @@ export const ar: Dictionary = {
     retry: 'حاول مجدداً',
     errorTitle: 'حدث خطأ ما',
     errorBody: 'تعذّر تحميل هذا المحتوى. يرجى المحاولة مرة أخرى.',
+    sendError: 'تعذّر إرسال رسالتك. حاول مرة أخرى، أو تواصل معنا عبر واتساب أو البريد الإلكتروني.',
     emptyTitle: 'لا يوجد محتوى بعد',
     emptyBody: 'جرّب تعديل عوامل التصفية أو البحث.',
     placeholder: 'محتوى تجريبي — قابل للتعديل',

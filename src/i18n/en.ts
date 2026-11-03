@@ -46,6 +46,8 @@ export const en = {
   },
   common: {
     backToTop: 'Back to top',
+    whatsapp: 'Chat with us on WhatsApp',
+    whatsappMessage: 'Hello H HUNTERS, I would like to know more about your services.',
     exploreSolutions: 'Explore Solutions',
     learnMore: 'Learn more',
     viewAll: 'View all',
@@ -56,6 +58,7 @@ export const en = {
     retry: 'Try again',
     errorTitle: 'Something went wrong',
     errorBody: 'We couldn’t load this content. Please try again.',
+    sendError: 'We couldn’t send your message. Please try again, or reach us on WhatsApp or by email.',
     emptyTitle: 'Nothing here yet',
     emptyBody: 'Try adjusting your filters or search.',
     placeholder: 'Placeholder — editable',

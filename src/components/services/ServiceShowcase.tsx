@@ -98,7 +98,7 @@ export function ServiceShowcase({ services }: {services: Service[];}) {
           )}
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
 
-          <span dir="ltr" className="absolute end-6 top-6 font-latin text-xs tabular-nums text-white/70">
+          <span dir="ltr" className="absolute right-6 top-6 font-latin rtl:left-6 rtl:right-auto text-xs tabular-nums text-white/70">
             <span className="text-lime-500">{pad(current.index)}</span> / {pad(services.length)}
           </span>
 

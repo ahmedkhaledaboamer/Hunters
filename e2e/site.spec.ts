@@ -12,7 +12,18 @@ async function setup(page: Page, prefs: Prefs = {}) {
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => {if (m.type() === 'error') errors.push(m.text());});
   await page.addInitScript((p) => localStorage.setItem('hh:preferences', JSON.stringify({ theme: 'dark', locale: 'en', ...p })), prefs);
+  // Never send real emails from tests: answer the email service with a success.
+  await page.route('https://formsubmit.co/**', (route) => route.fulfill({ json: { success: 'true', message: 'ok' } }));
   return errors;
+}
+
+/** Records requests to the email service, in order. */
+function captureEmails(page: Page) {
+  const sent: {to: string;body: string;}[] = [];
+  page.on('request', (r) => {
+    if (r.url().startsWith('https://formsubmit.co/')) sent.push({ to: decodeURIComponent(r.url().split('/').pop() ?? ''), body: r.postDataBuffer()?.toString('latin1') ?? '' });
+  });
+  return sent;
 }
 
 for (const locale of ['en', 'ar'] as const) {
@@ -185,4 +196,60 @@ test('back-to-top appears after scrolling and returns to the top', async ({ page
   await expect(button).toHaveAttribute('tabindex', '0');
   await button.click();
   await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 5000 }).toBeLessThan(5);
+});
+
+test.describe('forms are delivered by email', () => {
+  test('contact message goes to the info inbox with the sender as reply-to', async ({ page }) => {
+    await setup(page);
+    const sent = captureEmails(page);
+    await page.goto('/contact');
+    await page.fill('#c-name', 'Test User');
+    await page.fill('#c-email', 'test@example.com');
+    await page.fill('#c-subject', 'Partnership');
+    await page.fill('#c-msg', 'Hello, we would like to discuss a project with your team.');
+    await page.locator('form').first().getByRole('button', { name: /send|submit/i }).click();
+    await expect(page.getByRole('status').first()).toBeVisible();
+    expect(sent).toHaveLength(1);
+    expect(sent[0].to).toBe('info@h.hunters.ai');
+    expect(sent[0].body).toContain('test@example.com');
+    expect(sent[0].body).toContain('_replyto');
+  });
+
+  test('a job application goes to HR with the CV attached', async ({ page }) => {
+    await setup(page);
+    const sent = captureEmails(page);
+    await page.goto('/careers');
+    await page.locator('main button:has-text("Senior Software Engineer")').first().click(); // opens the application dialog
+    await expect(page.locator('#a-name')).toBeVisible();
+    await page.fill('#a-name', 'Test Applicant');
+    await page.fill('#a-email', 'applicant@example.com');
+    await page.fill('#a-phone', '50 978 2770');
+    await page.setInputFiles('#a-cv', { name: 'cv.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4 test') });
+    await page.locator('form:has(#a-name)').getByRole('button', { name: /send|submit/i }).click();
+    await expect(page.locator('form:has(#a-name)')).toHaveCount(0);
+    expect(sent).toHaveLength(1);
+    expect(sent[0].to).toBe('hr.hunters2022@gmail.com');
+    expect(sent[0].body).toContain('filename="cv.pdf"');
+  });
+
+  test('a failed send shows an error instead of a fake success', async ({ page }) => {
+    await setup(page);
+    await page.route('https://formsubmit.co/**', (route) => route.fulfill({ status: 500, json: { success: 'false', message: 'down' } }));
+    await page.goto('/contact');
+    await page.fill('#c-name', 'Test User');
+    await page.fill('#c-email', 'test@example.com');
+    await page.fill('#c-subject', 'Partnership');
+    await page.fill('#c-msg', 'Hello, we would like to discuss a project with your team.');
+    await page.locator('form').first().getByRole('button', { name: /send|submit/i }).click();
+    await expect(page.getByRole('alert').first()).toContainText(/couldn.t send/i);
+  });
+});
+
+test('WhatsApp button opens a chat with the company number and a greeting', async ({ page }) => {
+  await setup(page);
+  await page.goto('/');
+  const wa = page.getByRole('link', { name: 'Chat with us on WhatsApp' });
+  await expect(wa).toBeVisible();
+  await expect(wa).toHaveAttribute('href', /^https:\/\/wa\.me\/971509782770\?text=Hello/);
+  await expect(wa).toHaveAttribute('target', '_blank');
 });

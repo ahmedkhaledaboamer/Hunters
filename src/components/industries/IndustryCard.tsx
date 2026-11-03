@@ -6,7 +6,7 @@ import { cn } from '../../shared/lib/cn';
 import { CardArrow } from '../../shared/ui/SpotlightCard';
 import { photoSrcSet } from '../../shared/lib/image';
 
-/** Image-led card. Text sits on a dark overlay so it stays legible in both themes. */
+/** Image-led card. A dark fade behind the text (bottom only) keeps it legible while the photo stays clear. */
 export function IndustryCard({ industry, className }: {industry: Industry;className?: string;}) {
   const l = useL();
   const Icon = icons[industry.icon];
@@ -22,9 +22,9 @@ export function IndustryCard({ industry, className }: {industry: Industry;classN
         decoding="async"
         className="absolute inset-0 size-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.04]" />
       
-      <div aria-hidden className="absolute inset-0 bg-linear-to-t from-ink-950 via-ink-950/50 to-ink-950/0" />
+      <div aria-hidden className="absolute inset-0 bg-linear-to-t from-black/95 via-black/60 via-40% to-black/40" />
       <span className="border-beam" aria-hidden />
-      <div className="absolute inset-0 flex flex-col p-6 text-white">
+      <div className="absolute inset-0 flex flex-col p-6 text-white [text-shadow:0_1px_14px_rgb(0_0_0/0.55)]">
         <span className="inline-flex size-11 items-center justify-center rounded-xl border border-white/20 bg-ink-950/40 backdrop-blur-md">
           <Icon className="size-5 text-lime-500" strokeWidth={1.5} aria-hidden />
         </span>

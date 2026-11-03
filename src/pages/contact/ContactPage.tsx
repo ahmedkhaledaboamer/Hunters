@@ -60,7 +60,7 @@ export function ContactPage() {
                 <Field label={`${t('forms.company')} (${t('common.optional')})`} htmlFor="c-company"><Input id="c-company" {...register('company')} /></Field>
                 <Field label={t('forms.subject')} htmlFor="c-subject" error={errors.subject?.message}><Input id="c-subject" {...register('subject')} /></Field>
                 <Field label={t('forms.message')} htmlFor="c-msg" error={errors.message?.message} className="sm:col-span-2"><Textarea id="c-msg" rows={5} {...register('message')} /></Field>
-                {isError && <p role="alert" className="text-sm text-red-600 dark:text-red-400 sm:col-span-2">{t('common.errorBody')}</p>}
+                {isError && <p role="alert" className="text-sm text-red-600 dark:text-red-400 sm:col-span-2">{t('common.sendError')}</p>}
                 <Button type="submit" loading={isLoading} className="justify-self-start" arrow>{isLoading ? t('common.sending') : t('common.submit')}</Button>
               </form>
             }

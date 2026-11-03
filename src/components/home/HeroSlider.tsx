@@ -108,7 +108,7 @@ export function HeroSlider() {
                 </div>
                 {/* Fade the canvas into the page background (under the content) so the hero has no hard bottom edge. */}
                 <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-b from-transparent via-bg/70 to-bg" />
-                <Container wide className="relative flex h-full flex-col justify-center pb-44 pt-28">
+                <Container wide className="relative flex h-full flex-col justify-center-safe pb-44 pt-28">
                   <motion.div
                     initial={false}
                     animate={{ opacity: active ? 1 : 0, y: active ? 0 : 12 }}
@@ -122,7 +122,7 @@ export function HeroSlider() {
                     instant={i === 0}
                     delay={0.1}
                     text={l(slide.title)}
-                    className="mt-7 max-w-6xl text-display font-extralight tracking-[-0.035em] text-fg rtl:font-light rtl:leading-[1.2] rtl:tracking-normal" />
+                    className="mt-7 max-w-6xl text-display [font-size:min(var(--text-display),10.5svh)] font-extralight tracking-[-0.035em] text-fg rtl:font-light rtl:leading-[1.2] rtl:tracking-normal" />
                   
                   <motion.p
                     initial={false}

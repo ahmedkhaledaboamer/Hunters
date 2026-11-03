@@ -230,6 +230,9 @@ body::before {
   opacity: 1;
   animation-play-state: running;
 }
+@keyframes wa-ping {
+  75%, 100% { transform: scale(1.6); opacity: 0; }
+}
 @keyframes beam-spin {
   to { --beam-angle: 360deg; }
 }

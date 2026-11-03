@@ -68,6 +68,8 @@ export const contactInfo = {
   email: 'info@h.hunters.ai',
   hrEmail: 'hr.hunters2022@gmail.com',
   phone: '+971 50 978 2770',
+  /** International number without + or spaces, for wa.me links. */
+  whatsapp: '971509782770',
   /** Still a placeholder (bracketed); hidden in the UI until confirmed. */
   website: '[www.hhunters.ae]'
 };

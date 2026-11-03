@@ -86,14 +86,18 @@ export function CareersPage() {
 function PositionDetail({ position }: {position: Position;}) {
   const { t } = useTranslation();
   const l = useL();
-  const [submit, { isLoading }] = useSubmitFormMutation();
+  const [submit, { isLoading, isError }] = useSubmitFormMutation();
   const [sent, setSent] = useState(false);
   const schema = makeApplySchema(t);
   const { register, handleSubmit, watch, formState: { errors } } = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema), mode: 'onTouched' });
   const file = watch('cv')?.[0];
   const onSubmit = handleSubmit(async ({ cv, ...rest }) => {
-    await submit({ kind: 'job-applications', body: { ...rest, position: position.id, cv: cv[0]?.name } }).unwrap();
-    setSent(true);
+    try {
+      await submit({ kind: 'job-applications', body: { ...rest, position: position.title.en, cv: cv[0] } }).unwrap();
+      setSent(true);
+    } catch {
+
+      /* shown via isError */}
   });
 
   return (
@@ -127,6 +131,7 @@ function PositionDetail({ position }: {position: Position;}) {
               <input id="a-cv" type="file" accept=".pdf,.doc,.docx" className="sr-only" {...register('cv')} />
             </Field>
             <Field label={`${t('forms.message')} (${t('common.optional')})`} htmlFor="a-msg"><Textarea id="a-msg" rows={3} {...register('message')} /></Field>
+            {isError && <p role="alert" className="text-sm text-red-600 dark:text-red-400">{t('common.sendError')}</p>}
             <Button type="submit" loading={isLoading} arrow>{isLoading ? t('common.sending') : t('common.submit')}</Button>
           </form>
         }

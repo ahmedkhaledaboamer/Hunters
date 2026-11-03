@@ -5,6 +5,7 @@ import { ArrowRight, Check, CircleDot } from 'lucide-react';
 import { ServiceCard } from '../../components/services/ServiceCard';
 import { useGetIndustryQuery, useGetServicesQuery } from '../../features/services/servicesApi';
 import { useL } from '../../features/preferences/usePreferences';
+import { useLabel } from '../../i18n/labels';
 import { icons } from '../../shared/lib/icons';
 import { useSeo } from '../../shared/lib/useSeo';
 import { Container } from '../../shared/ui/Container';
@@ -22,6 +23,7 @@ export function IndustryDetailPage() {
   const { slug = '' } = useParams();
   const { t } = useTranslation();
   const l = useL();
+  const label = useLabel();
   const { data: industry, isLoading, isError } = useGetIndustryQuery(slug);
   const { data: services = [] } = useGetServicesQuery();
   useSeo(industry ? l(industry.title) : t('nav.industries'), industry ? industry.focus.map(l).join(' · ') : t('industries.lead'), { image: industry?.image });
@@ -60,10 +62,10 @@ export function IndustryDetailPage() {
           transition={{ duration: 0.6, ease: EASE_OUT }}
           className="absolute inset-0 size-full object-cover" />
         
-        <div aria-hidden className="absolute inset-0 bg-linear-to-t from-ink-950 via-ink-950/60 to-ink-950/20" />
+        <div aria-hidden className="absolute inset-0 bg-linear-to-t from-ink-950 via-ink-950/50 via-35% to-ink-950/10" />
         <Container className="relative">
-          <p dir="ltr" className="font-latin text-[11px] font-medium uppercase tracking-[0.3em] text-lime-500 rtl:text-right">
-            INDUSTRIES WE SERVE
+          <p className="font-latin text-[11px] font-medium uppercase tracking-[0.3em] text-lime-500 rtl:font-arabic rtl:text-xs rtl:tracking-normal">
+            {label('INDUSTRIES WE SERVE')}
           </p>
           <span className="mt-6 inline-flex size-14 items-center justify-center rounded-2xl border border-white/20 bg-ink-950/40 backdrop-blur-md">
             <Icon className="size-6 text-lime-500" strokeWidth={1.4} aria-hidden />
