@@ -75,7 +75,10 @@ export function RegionMap({ hub, markets, className }: RegionMapProps) {
             cy={origin.y}
             r="7"
             className="fill-accent"
-            animate={{ r: [7, 28], opacity: [0.45, 0] }}
+            // Grow with a transform (from the circle's own centre) rather than animating the r attribute,
+            // which framer can briefly set to "undefined" and which repaints more.
+            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+            animate={{ scale: [1, 4], opacity: [0.45, 0] }}
             transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }} />
 
           }
