@@ -14,6 +14,7 @@ import { Skeleton } from '../../shared/ui/Skeleton';
 import { EASE_OUT } from '../../shared/motion/variants';
 import { ScrollFill } from '../../shared/motion/ScrollFill';
 import { scrollToTarget } from '../../shared/lib/scroll';
+import { brandify } from '../../shared/lib/brand';
 
 export function HistoryPage() {
   const { t } = useTranslation();
@@ -119,7 +120,7 @@ function MilestoneItem({ milestone, index, active }: {milestone: Milestone;index
           {milestone.year}
         </p>
         <h2 className="mt-4 text-2xl font-light">{l(milestone.title)}</h2>
-        <p className="mt-3 leading-relaxed text-muted">{l(milestone.description)}</p>
+        <p className="mt-3 leading-relaxed text-muted">{brandify(l(milestone.description))}</p>
         {milestone.placeholder &&
         <Badge tone="outline" className="mt-5">
             {t('common.placeholder')}

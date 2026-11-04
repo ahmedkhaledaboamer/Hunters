@@ -5,6 +5,7 @@ import { SplitText } from '../motion/SplitText';
 import { Container } from './Container';
 import { NodeLine } from './NodeLine';
 import { Eyebrow } from './SectionHeading';
+import { brandify } from '../lib/brand';
 
 interface PageHeroProps {
   eyebrow: string;
@@ -35,7 +36,7 @@ export function PageHero({ eyebrow, title, lead, children, aside, className }: P
             
             {lead &&
             <Reveal delay={0.15}>
-                <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{lead}</p>
+                <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{brandify(lead)}</p>
               </Reveal>
             }
             {children && <Reveal delay={0.2} className="mt-10">{children}</Reveal>}

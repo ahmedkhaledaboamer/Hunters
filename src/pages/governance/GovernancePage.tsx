@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ShieldCheck } from 'lucide-react';
+import { Check, ShieldCheck } from 'lucide-react';
 import { useGetStatementsQuery } from '../../features/content/contentApi';
 import { useL } from '../../features/preferences/usePreferences';
 import { useSeo } from '../../shared/lib/useSeo';
@@ -27,21 +27,17 @@ export function GovernancePage() {
             isLoading={query.isLoading}
             isError={query.isError}
             onRetry={query.refetch}
-            skeleton={<CardSkeletonGrid count={10} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" itemClassName="h-52" />}>
+            skeleton={<CardSkeletonGrid count={10} className="grid gap-x-12 gap-y-3 md:grid-cols-2" itemClassName="h-14" />}>
             
             {() =>
-            <RevealGroup as="ul" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" step={0.04}>
-                {(query.data ?? []).map((item, i) =>
-              <RevealItem as="li" key={item.en} className="glass relative flex min-h-52 flex-col overflow-hidden rounded-2xl p-6">
-                    <div className="flex items-center justify-between">
-                      <span className="inline-flex size-11 items-center justify-center rounded-xl border border-line text-accent-ink">
-                        <ShieldCheck className="size-5" strokeWidth={1.4} aria-hidden />
-                      </span>
-                      <span dir="ltr" className="font-latin text-xs tabular-nums text-muted">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                    </div>
-                    <p className="mt-auto pt-8 leading-relaxed text-fg/90">{l(item)}</p>
+            // Modern checklist: two columns of points, each with a lime check badge and a hairline divider.
+            <RevealGroup as="ul" className="grid gap-x-12 md:grid-cols-2" step={0.04}>
+                {(query.data ?? []).map((item) =>
+              <RevealItem as="li" key={item.en} className="group flex items-start gap-4 border-b border-line py-5">
+                    <span className="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-lime-500/15 text-accent-ink ring-1 ring-lime-500/30 transition-colors duration-200 group-hover:bg-lime-500 group-hover:text-ink-950">
+                      <Check className="size-4" strokeWidth={2.5} aria-hidden />
+                    </span>
+                    <p className="text-lg leading-relaxed text-fg/90">{l(item)}</p>
                   </RevealItem>
               )}
               </RevealGroup>

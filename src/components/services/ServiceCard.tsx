@@ -29,9 +29,6 @@ export function ServiceCard({ service }: {service: Service;}) {
           <span className="absolute start-4 top-4 rounded-full border border-white/15 bg-black/40 px-3 py-1 text-[11px] text-white/90 backdrop-blur-md">
             {t(`services.categories.${service.category}`)}
           </span>
-          <span className="absolute end-4 top-4 font-latin text-xs tabular-nums text-white/70">
-            {String(service.index).padStart(2, '0')}
-          </span>
           <TiltLayer depth={8} className="absolute bottom-4 start-4">
             <motion.div
               layoutId={`service-icon-${service.slug}`}

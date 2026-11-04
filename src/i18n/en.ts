@@ -26,6 +26,10 @@ export const en = {
     skip: 'Skip to content',
     primary: 'Primary',
     allServices: 'View all services',
+    allSolutions: 'View all solutions',
+    allIndustries: 'View all industries',
+    solutionsBlurb: 'Operating model, executive insight and intelligent engagement — designed around your real needs.',
+    industriesBlurb: 'Solutions shaped around the nature and operational needs of each sector.',
     servicesBlurb: 'Eight areas of expertise, one connected approach to intelligent business.',
     companyBlurb: 'Who we are, how we work, and the principles that guide us.',
     aboutDesc: 'Vision, mission and philosophy',
@@ -140,7 +144,7 @@ export const en = {
       quote: 'Technology Must Create Business Value.',
       body: [
       'We believe the true value of technology shows when it is reflected in an organization’s actual performance.',
-      'That’s why our approach starts with understanding the business and analyzing its challenges, then designing the right solution, building and connecting it to existing systems, measuring its impact, and improving it continuously.']
+      'Our approach starts with understanding the business and analyzing its challenges, then designing the right solution, building and connecting it to existing systems, measuring its impact, and improving it continuously.']
 
     },
     commitment: {
@@ -388,9 +392,9 @@ export const en = {
     ctaTitle: 'Let’s Build What’s Next',
     ctaSub: 'Your Business. Reimagined Through Intelligence.',
     ctaBody: 'Whether your organization is at the start of its digital journey, looking to develop its current systems, or aiming to apply AI across its operations, the first step begins with understanding your goals and designing a clear path to achieve them.',
-    partnerLine: 'Your partner in digital transformation, artificial intelligence and intelligent solution engineering.',
+    partnerLine: 'Your partner in digital transformation and intelligent solution engineering.',
     newsletterTitle: 'Insights, occasionally',
-    newsletterBody: 'Company news and AI perspectives. No noise.',
+    newsletterBody: 'Company news and AI perspectives.',
     subscribe: 'Subscribe',
     subscribed: 'You’re subscribed.',
     explore: 'Explore',
@@ -406,6 +410,16 @@ export const en = {
   seo: {
     home: 'Engineering the Intelligence of Business',
     homeDesc: 'H HUNTERS Technology Solutions — Software & AI solutions company in Abu Dhabi, UAE.'
+  },
+  search: {
+    open: 'Search the site',
+    placeholder: 'Search services, industries, news…',
+    suggestions: 'Popular',
+    empty: 'No results for “{{query}}”.',
+    navigate: 'to move',
+    select: 'to open',
+    close: 'to close',
+    groups: { pages: 'Page', solutions: 'Solution', services: 'Service', industries: 'Industry', news: 'News', partners: 'Partner' }
   }
 };
 

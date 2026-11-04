@@ -9,12 +9,13 @@ import { Button } from '../ui/Button';
 import { cn } from '../lib/cn';
 import { EASE_OUT } from '../motion/variants';
 import { LanguageToggle } from './LanguageToggle';
+import { SiteSearch } from './SiteSearch';
 import { ThemeToggle } from './ThemeToggle';
 import { MegaMenu } from './MegaMenu';
 import { MobileMenu } from './MobileMenu';
-import { primaryNav } from './navigation';
+import { primaryNav, type MegaKind } from './navigation';
 
-type Mega = 'services' | 'company';
+type Mega = MegaKind;
 
 const linkBase = 'relative whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors duration-150';
 
@@ -73,7 +74,7 @@ export function Header() {
                   const label = t(`nav.${item.key}`);
                   if (item.mega) {
                     const open = mega === item.mega;
-                    const active = item.mega === 'company' ? companyActive : location.pathname.startsWith('/services');
+                    const active = item.mega === 'company' ? companyActive : location.pathname.startsWith(item.to as string);
                     return (
                       <li key={item.key} onMouseEnter={() => setMega(item.mega ?? null)}>
                         <button
@@ -110,6 +111,7 @@ export function Header() {
             </nav>
 
             <div className="ms-auto flex items-center gap-2">
+              <SiteSearch />
               <LanguageToggle />
               <ThemeToggle className="hidden sm:inline-flex" />
               <Button to="/book-consultation" size="sm" className="hidden h-10 sm:inline-flex" arrow>

@@ -39,3 +39,30 @@ describe('contact info', () => {
     expect(isPlaceholder(contactInfo.email)).toBe(false);
   });
 });
+
+describe('brand highlighting', () => {
+  it('marks only the words of the company name, punctuation included', async () => {
+    const { brandWordMask } = await import('./brand');
+    expect(brandWordMask('لماذا اتش هانترز؟'.split(' '))).toEqual([false, true, true]);
+    expect(brandWordMask('Why H HUNTERS?'.split(' '))).toEqual([false, true, true]);
+    expect(brandWordMask('اتش وحده'.split(' '))).toEqual([false, false]);
+  });
+});
+
+describe('site search matching', () => {
+  it('ignores Arabic diacritics and letter variants', async () => {
+    const { normalize } = await import('./searchText');
+    expect(normalize('الإستشارات')).toBe(normalize('الاستشارات'));
+    expect(normalize('مُدَوَّنة')).toBe(normalize('مدونه'));
+    expect(normalize('Türkiye')).toBe('turkiye');
+  });
+
+  it('requires every word and ranks title hits first', async () => {
+    const { score } = await import('./searchText');
+    const ai = { title: 'Artificial Intelligence Solutions', text: 'Assistants and agents' };
+    const erp = { title: 'ERP Systems', text: 'artificial intelligence modules' };
+    expect(score(ai, ['artificial'])).toBeGreaterThan(score(erp, ['artificial']));
+    expect(score(ai, ['artificial', 'banking'])).toBe(0);
+    expect(score({ title: 'حلول الذكاء الاصطناعي', text: '' }, ['الذكاء'])).toBeGreaterThan(0);
+  });
+});

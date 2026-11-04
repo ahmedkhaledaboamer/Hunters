@@ -4,7 +4,7 @@ export const heroSlides: HeroSlide[] = [
 {
   id: 'intelligence',
   eyebrow: 'H HUNTERS TECHNOLOGY SOLUTIONS',
-  title: { ar: 'نعيد هندسة الأعمال لعصر الذكاء الاصطناعي', en: 'Engineering the Intelligence of Business' },
+  title: { ar: 'ذكاء يصنع الفرق في عالم الأعمال.', en: 'Engineering the Intelligence of Business' },
   subtitle: {
     ar: 'نصمم ونطور ونكامل الحلول الذكية التي تحول البيانات إلى رؤى، والعمليات إلى أنظمة أكثر كفاءة.',
     en: 'We design, develop and integrate intelligent solutions that turn data into insight and operations into more efficient systems.'

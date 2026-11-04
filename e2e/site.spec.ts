@@ -88,7 +88,7 @@ test('language toggle switches to Arabic and back', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: /العربية/ }).first().click();
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
-  await expect(page.locator('h1').first()).toContainText('نعيد هندسة');
+  await expect(page.locator('h1').first()).toContainText('ذكاء يصنع الفرق');
   await page.getByRole('button', { name: /^EN$|English/ }).first().click();
   await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
 });
@@ -109,15 +109,17 @@ test('booking a consultation end to end', async ({ page }) => {
   const panel = page.locator('.glass.rounded-3xl').first();
   const next = panel.locator('div.border-t button').last();
 
-  await panel.getByRole('radio').first().click(); // service
-  await next.click();
-  await panel.getByRole('radio').first().click(); // consultant
-  await next.click();
-  await next.click(); // meeting type keeps its defaults
+  // Single-choice steps advance on their own once something is picked.
+  await panel.getByRole('heading', { name: /which area/i }).waitFor();
+  await panel.getByRole('radio').first().click(); // service → advances
+  await panel.getByRole('heading', { name: /who would you like/i }).waitFor();
+  await panel.getByRole('radio').first().click(); // consultant → advances
+  await panel.getByRole('heading', { name: /how would you like/i }).waitFor();
+  await next.click(); // meeting type keeps its defaults (this step still has Continue)
 
   await panel.locator('[role=gridcell]:not([disabled])').first().click();
-  await panel.locator('[role=radiogroup] [role=radio]:not([disabled])').first().click();
-  await next.click();
+  await panel.locator('[role=radiogroup] [role=radio]:not([disabled])').first().click(); // time → advances
+  await page.locator('#fullName').waitFor();
 
   await page.fill('#fullName', 'Test User');
   await page.fill('#company', 'ACME');
@@ -133,14 +135,13 @@ test('booking a consultation end to end', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test('booking details are validated', async ({ page }) => {
+test('picking a service moves straight to the next step', async ({ page }) => {
   await setup(page);
   await page.goto('/book-consultation');
   const panel = page.locator('.glass.rounded-3xl').first();
-  const next = panel.locator('div.border-t button').last();
-  await expect(next).toBeDisabled(); // nothing chosen yet
+  await expect(panel.getByRole('button', { name: /continue/i })).toHaveCount(0); // no Continue on choice steps
   await panel.getByRole('radio').first().click();
-  await expect(next).toBeEnabled();
+  await expect(panel.getByRole('heading', { name: /who would you like/i })).toBeVisible();
 });
 
 test('contact form shows errors, then sends', async ({ page }) => {
@@ -252,4 +253,16 @@ test('WhatsApp button opens a chat with the company number and a greeting', asyn
   await expect(wa).toBeVisible();
   await expect(wa).toHaveAttribute('href', /^https:\/\/wa\.me\/971509782770\?text=Hello/);
   await expect(wa).toHaveAttribute('target', '_blank');
+});
+
+test('site search finds a service and opens it', async ({ page }) => {
+  await setup(page);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Search the site' }).click();
+  const input = page.getByRole('searchbox');
+  await input.fill('artificial intel');
+  await expect(page.getByRole('option').first()).toContainText('Artificial Intelligence');
+  await input.press('Enter');
+  await expect(page).toHaveURL(/\/services\/artificial-intelligence$/);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
 });

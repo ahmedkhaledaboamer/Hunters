@@ -115,9 +115,6 @@ export function ServiceDetailPage() {
             
             <img src={service.image} srcSet={photoSrcSet(service.image)} sizes="(min-width: 1024px) 45vw, 100vw" alt="" width={1200} height={900} decoding="async" className="size-full object-cover" />
             <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-            <span dir="ltr" className="absolute bottom-5 right-6 font-latin rtl:left-6 rtl:right-auto text-xs tabular-nums text-white/70">
-              <span className="text-lime-500">{String(service.index).padStart(2, '0')}</span> / {String(allServices.length || 8).padStart(2, '0')}
-            </span>
           </motion.div>
           </div>
           <NodeLine className="mt-16" />

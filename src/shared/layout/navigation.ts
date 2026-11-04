@@ -2,16 +2,18 @@ import type { IconName } from '../lib/icons';
 
 export type NavKey = 'services' | 'solutions' | 'industries' | 'howWeWork' | 'company' | 'news' | 'contact';
 
+export type MegaKind = 'services' | 'solutions' | 'industries' | 'company';
+
 export interface NavItem {
   key: NavKey;
   to?: string;
-  mega?: 'services' | 'company';
+  mega?: MegaKind;
 }
 
 export const primaryNav: NavItem[] = [
 { key: 'services', to: '/services', mega: 'services' },
-{ key: 'solutions', to: '/solutions' },
-{ key: 'industries', to: '/industries' },
+{ key: 'solutions', to: '/solutions', mega: 'solutions' },
+{ key: 'industries', to: '/industries', mega: 'industries' },
 { key: 'howWeWork', to: '/how-we-work' },
 { key: 'company', mega: 'company' },
 { key: 'news', to: '/news' },

@@ -18,6 +18,7 @@ import { RevealGroup, RevealItem } from '../../shared/motion/Reveal';
 import { SplitText } from '../../shared/motion/SplitText';
 import { EASE_OUT } from '../../shared/motion/variants';
 import { photoSrcSet } from '../../shared/lib/image';
+import { brandify } from '../../shared/lib/brand';
 
 export function IndustryDetailPage() {
   const { slug = '' } = useParams();
@@ -88,7 +89,7 @@ export function IndustryDetailPage() {
 
       <Section aria-labelledby="flow-title">
         <h2 id="flow-title" className="sr-only">
-          {t('industries.challenges')} → {t('industries.solutions')}
+          {t('industries.challenges')} → {brandify(t('industries.solutions'))}
         </h2>
         <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
           <div className="rounded-3xl border border-dashed border-line-strong p-8">
@@ -117,7 +118,7 @@ export function IndustryDetailPage() {
 
           <div className="glass rounded-3xl border-lime-500/30 p-8">
             <Eyebrow>H HUNTERS SOLUTIONS</Eyebrow>
-            <h3 className="mt-4 text-2xl font-light">{t('industries.solutions')}</h3>
+            <h3 className="mt-4 text-2xl font-light">{brandify(t('industries.solutions'))}</h3>
             <RevealGroup as="ul" className="mt-6 space-y-4">
               {industry.focus.map((f) =>
               <RevealItem as="li" key={f.en} className="flex items-start gap-3 text-fg">

@@ -24,6 +24,7 @@ import { Reveal, RevealGroup, RevealItem } from '../../shared/motion/Reveal';
 import { SplitText } from '../../shared/motion/SplitText';
 import { photoSrcSet } from '../../shared/lib/image';
 import { Deferred } from '../../shared/ui/Deferred';
+import { brandify } from '../../shared/lib/brand';
 
 export function HomePage() {
   const { t } = useTranslation();
@@ -144,7 +145,7 @@ function WhoWeAre() {
         <div>
           <SectionHeading id="who-title" eyebrow="WHO WE ARE" index="01" title={t('home.whoTitle')} />
           <Reveal delay={0.1}>
-            <p className="mt-8 max-w-xl text-lg font-light leading-relaxed text-fg/85 md:text-xl">{body[0]}</p>
+            <p className="mt-8 max-w-xl text-lg font-light leading-relaxed text-fg/85 md:text-xl">{brandify(body[0])}</p>
             <blockquote className="mt-8 border-s-2 border-accent ps-5 text-xl font-extralight leading-snug text-fg md:text-2xl">
               “{t('home.philosophyTitle')}”
             </blockquote>

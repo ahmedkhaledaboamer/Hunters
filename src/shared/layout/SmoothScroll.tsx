@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import Lenis from 'lenis';
@@ -90,4 +91,23 @@ export function BackToTop() {
       <ArrowUp className="relative size-4" aria-hidden />
     </motion.button>);
 
+}
+
+/** After navigating to /page#section, scroll to that section once it has rendered (routes load lazily). */
+export function HashScroll() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) return;
+    const id = decodeURIComponent(hash.slice(1));
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      const el = document.getElementById(id);
+      if (el || ++tries > 40) {
+        window.clearInterval(timer);
+        if (el) scrollToTarget(el, -96);
+      }
+    }, 50);
+    return () => window.clearInterval(timer);
+  }, [pathname, hash]);
+  return null;
 }

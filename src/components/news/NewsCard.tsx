@@ -7,6 +7,7 @@ import { cn } from '../../shared/lib/cn';
 import { Badge } from '../../shared/ui/Badge';
 import { CardArrow } from '../../shared/ui/SpotlightCard';
 import { photoSrcSet } from '../../shared/lib/image';
+import { brandify } from '../../shared/lib/brand';
 
 export function NewsMeta({ article, className }: {article: NewsArticle;className?: string;}) {
   const { t } = useTranslation();
@@ -42,7 +43,7 @@ export function NewsCard({ article, size = 'default', className }: {article: New
         <NewsMeta article={article} />
         <h3 className={cn('mt-3 font-light leading-snug text-fg transition-colors duration-150 group-hover:text-accent-ink', large ? 'text-3xl md:text-4xl' : 'text-xl')}>
           <Link to={`/news/${article.slug}`} className="after:absolute after:inset-0 after:rounded-2xl">
-            {l(article.title)}
+            {brandify(l(article.title))}
           </Link>
         </h3>
         <p className={cn('mt-3 leading-relaxed text-muted', large ? 'text-lg' : 'line-clamp-2 text-sm')}>{l(article.excerpt)}</p>

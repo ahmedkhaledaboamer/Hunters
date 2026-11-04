@@ -34,9 +34,9 @@
   --font-latin: "Jost", ui-sans-serif, system-ui, sans-serif;
   --ease-out-expo: cubic-bezier(0.23, 1, 0.32, 1);
   --tracking-eyebrow: 0.3em;
-  --text-display: clamp(3rem, 1.6rem + 5.6vw, 7rem);
+  --text-display: clamp(2.6rem, 1.4rem + 4.7vw, 5.9rem);
   --text-display--line-height: 1;
-  --text-headline: clamp(2.25rem, 1.5rem + 3vw, 4.5rem);
+  --text-headline: clamp(1.9rem, 1.3rem + 2.45vw, 3.75rem);
   --text-headline--line-height: 1.05;
   --animate-marquee: marquee 45s linear infinite;
   --animate-marquee-reverse: marquee-reverse 45s linear infinite;
@@ -86,6 +86,17 @@
   --scroll-thumb: rgb(0 0 0 / 0.28);
   color-scheme: light;
 }
+/* Light theme: a slightly deeper lime so it holds up against the light background (dark theme keeps the brand value). */
+html:not(.dark) {
+  --color-lime-500: #C4E40C;
+  --color-lime-400: #D3EF3A;
+  /* Accent TEXT needs more contrast than lime can give on a light page: a deep yellow-green, no outline. */
+  --accent-ink: #6F8C00;
+}
+html:not(.dark) .eyebrow,
+html:not(.dark) .text-accent-ink {
+  font-weight: 600;
+}
 .dark {
   --bg: #000000;
   --fg: #F4F5EF;
@@ -105,6 +116,8 @@
   color-scheme: dark;
 }
 html {
+  /* One step smaller type site-wide: every rem-based size scales from this (90.625% = 14.5px, respects browser settings). */
+  font-size: 90.625%;
   background: var(--bg);
   -webkit-text-size-adjust: 100%;
   position: relative; /* framer-motion measures scroll offsets against the root */
@@ -171,6 +184,10 @@ body::before {
   outline-offset: 3px;
   border-radius: 6px;
 }
+/* The search field shows focus on its whole bar instead (see SiteSearch). */
+.site-search-input:focus-visible {
+  outline: none;
+}
 @utility bg-grid {
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
@@ -188,7 +205,7 @@ body::before {
   background: radial-gradient(closest-side, var(--glow), transparent);
 }
 @utility eyebrow {
-  font-size: 0.6875rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: var(--tracking-eyebrow);
   text-transform: uppercase;
@@ -277,17 +294,4 @@ body::before {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-}
-/* Light theme: yellow accent text gets a thin dark outline (drawn under the fill) so it stays legible on light backgrounds. */
-/* Only where the text is lime right now: the plain class, or a hover variant while hovered. */
-html:not(.dark) .eyebrow,
-html:not(.dark) [class~='text-accent-ink'],
-html:not(.dark) [class~='hover:text-accent-ink']:hover,
-html:not(.dark) .group:hover [class~='group-hover:text-accent-ink'],
-html:not(.dark) .group\/card:hover [class~='group-hover/card:text-accent-ink'] {
-  -webkit-text-stroke: 1.5px rgb(0 0 0 / 0.55);
-  paint-order: stroke fill;
-}
-html:not(.dark) .eyebrow .text-muted {
-  -webkit-text-stroke: 0;
 }

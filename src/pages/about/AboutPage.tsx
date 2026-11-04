@@ -11,6 +11,7 @@ import { NodeLine } from '../../shared/ui/NodeLine';
 import { Reveal } from '../../shared/motion/Reveal';
 import { SplitText } from '../../shared/motion/SplitText';
 import { quick } from '../../shared/motion/variants';
+import { brandify } from '../../shared/lib/brand';
 
 const sections = [
 { id: 'who', eyebrow: 'WHO WE ARE', index: '01' },
@@ -75,40 +76,35 @@ export function AboutPage() {
         <EditorialBlock id="who" eyebrow="WHO WE ARE" index="01" title={t('about.who.title')}>
           {para('about.who.body').map((p, i) =>
           <Reveal key={i} delay={0.05 * i}>
-              <p className={cn('leading-relaxed', i === 0 ? 'text-2xl font-light text-fg md:text-3xl md:leading-snug' : 'text-lg text-muted')}>{p}</p>
+              {i === 0 ? <Lead>{brandify(p)}</Lead> : <p className="text-lg leading-relaxed text-muted">{brandify(p)}</p>}
             </Reveal>
           )}
         </EditorialBlock>
 
         <EditorialBlock id="vision" eyebrow="OUR VISION" index="02" title={t('about.vision.title')}>
           <Reveal>
-            <blockquote className="relative border-s border-accent ps-8">
-              <span aria-hidden className="absolute -start-[5px] top-0 size-2.5 rounded-full bg-accent" />
-              <p className="text-3xl font-extralight leading-snug text-fg md:text-4xl md:leading-snug">{t('about.vision.body')}</p>
-            </blockquote>
+            <Lead large>{t('about.vision.body')}</Lead>
           </Reveal>
         </EditorialBlock>
 
         <EditorialBlock id="mission" eyebrow="OUR MISSION" index="03" title={t('about.mission.title')}>
           {para('about.mission.body').map((p, i) =>
           <Reveal key={i} delay={0.05 * i}>
-              <p className={cn('leading-relaxed', i === 0 ? 'text-2xl font-light text-fg' : 'text-lg text-muted')}>{p}</p>
+              {i === 0 ? <Lead>{brandify(p)}</Lead> : <p className="text-lg leading-relaxed text-muted">{brandify(p)}</p>}
             </Reveal>
           )}
         </EditorialBlock>
 
         <EditorialBlock id="philosophy" eyebrow="OUR PHILOSOPHY" index="04" title={t('about.philosophy.title')}>
           <Reveal>
-            <p dir="ltr" className="font-latin text-4xl font-extralight leading-tight tracking-tight text-accent-ink md:text-6xl rtl:text-right">
-              Technology Must Create Business Value.
-            </p>
-            {t('about.philosophy.quote') !== 'Technology Must Create Business Value.' &&
-            <p className="mt-4 text-2xl font-light text-fg">{t('about.philosophy.quote')}</p>
-            }
+            <Lead>
+              {t('about.philosophy.quote')}
+              <span className="mt-3 block">{para('about.philosophy.body')[0]}</span>
+            </Lead>
           </Reveal>
-          {para('about.philosophy.body').map((p, i) =>
+          {para('about.philosophy.body').slice(1).map((p, i) =>
           <Reveal key={i}>
-              <p className="text-lg leading-relaxed text-muted">{p}</p>
+              <p className="text-lg leading-relaxed text-muted">{brandify(p)}</p>
             </Reveal>
           )}
           <Reveal>
@@ -117,17 +113,17 @@ export function AboutPage() {
         </EditorialBlock>
 
         <EditorialBlock id="commitment" eyebrow="OUR COMMITMENT" index="15" title={t('about.commitment.title')}>
-          {para('about.commitment.body').map((p, i) =>
+          {leadFirst(para('about.commitment.body'), 1).map((p, i) =>
           <Reveal key={i}>
-              <p className={cn('leading-relaxed', i === 1 ? 'border-s-2 border-accent ps-6 text-2xl font-light text-fg' : 'text-lg text-muted')}>{p}</p>
+              {i === 0 ? <Lead>{brandify(p)}</Lead> : <p className="text-lg leading-relaxed text-muted">{brandify(p)}</p>}
             </Reveal>
           )}
         </EditorialBlock>
 
         <EditorialBlock id="future" eyebrow="OUR FUTURE" index="16" title={t('about.future.title')} last>
-          {para('about.future.body').map((p, i) =>
+          {leadFirst(para('about.future.body'), 1).map((p, i) =>
           <Reveal key={i}>
-              <p className={cn('leading-relaxed', i === 1 ? 'text-2xl font-light text-fg' : 'text-lg text-muted')}>{p}</p>
+              {i === 0 ? <Lead>{brandify(p)}</Lead> : <p className="text-lg leading-relaxed text-muted">{brandify(p)}</p>}
             </Reveal>
           )}
         </EditorialBlock>
@@ -145,6 +141,9 @@ interface EditorialBlockProps {
   last?: boolean;
 }
 
+/** Moves the highlighted paragraph to the top, so every section opens with its statement. */
+const leadFirst = (paras: string[], leadIndex: number) => [paras[leadIndex], ...paras.filter((_, i) => i !== leadIndex)];
+
 function EditorialBlock({ id, eyebrow, index, title, children, last }: EditorialBlockProps) {
   return (
     <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-32 py-20 md:py-28">
@@ -159,5 +158,17 @@ function EditorialBlock({ id, eyebrow, index, title, children, last }: Editorial
       </div>
       {!last && <NodeLine className="mt-20 md:mt-28" />}
     </section>);
+
+}
+
+/** The highlighted statement in each section: lime rule with a node at its top, same in every section. */
+function Lead({ children, large }: {children: React.ReactNode;large?: boolean;}) {
+  return (
+    <blockquote className="relative border-s border-accent ps-8">
+      <span aria-hidden className="absolute -start-[5px] top-0 size-2.5 rounded-full bg-accent" />
+      <p className={cn('font-light leading-snug text-fg', large ? 'text-3xl font-extralight md:text-4xl md:leading-snug' : 'text-2xl md:text-3xl md:leading-snug')}>
+        {children}
+      </p>
+    </blockquote>);
 
 }

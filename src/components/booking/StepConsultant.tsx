@@ -11,7 +11,7 @@ import { SelectableCard } from './SelectableCard';
 
 export const ANY_CONSULTANT = 'any';
 
-export function StepConsultant() {
+export function StepConsultant({ onPicked }: {onPicked?: () => void;}) {
   const { t } = useTranslation();
   const l = useL();
   const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ export function StepConsultant() {
           
           {() =>
           <div role="radiogroup" aria-label={t('book.consultantTitle')} className="grid gap-3 sm:grid-cols-2">
-              <SelectableCard selected={consultantId === ANY_CONSULTANT} onSelect={() => dispatch(selectConsultant(ANY_CONSULTANT))} className="sm:col-span-2">
+              <SelectableCard selected={consultantId === ANY_CONSULTANT} onSelect={() => {dispatch(selectConsultant(ANY_CONSULTANT));onPicked?.();}} className="sm:col-span-2">
                 <span className="flex items-center gap-4">
                   <span className="inline-flex size-12 items-center justify-center rounded-full bg-lime-500 text-ink-950">
                     <Sparkles className="size-5" aria-hidden />
@@ -47,7 +47,7 @@ export function StepConsultant() {
               {consultants.map((c) => {
               const match = serviceSlug ? c.specializations.includes(serviceSlug) : false;
               return (
-                <SelectableCard key={c.id} selected={consultantId === c.id} onSelect={() => dispatch(selectConsultant(c.id))}>
+                <SelectableCard key={c.id} selected={consultantId === c.id} onSelect={() => {dispatch(selectConsultant(c.id));onPicked?.();}}>
                     <span className="flex items-center gap-4">
                       <span aria-hidden className="inline-flex size-12 items-center justify-center rounded-full border border-line-strong font-latin text-sm text-fg">
                         {c.initials}

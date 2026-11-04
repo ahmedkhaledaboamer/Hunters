@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -23,7 +23,11 @@ import { EASE_OUT } from '../../shared/motion/variants';
 import { cn } from '../../shared/lib/cn';
 import { scrollToTarget } from '../../shared/lib/scroll';
 
-const steps = [StepService, StepConsultant, StepMeeting, StepDateTime, StepDetails];
+const steps: ComponentType<{onPicked?: () => void;}>[] = [StepService, StepConsultant, StepMeeting, StepDateTime, StepDetails];
+
+/** Single-choice steps advance on their own once something is picked; the rest keep the Continue button. */
+const AUTO_ADVANCE = new Set([0, 1, 3]);
+const ADVANCE_DELAY = 280; // long enough to see the selection register
 
 export function BookConsultationPage() {
   const { t } = useTranslation();
@@ -42,6 +46,8 @@ export function BookConsultationPage() {
   }, [step]);
 
   const canContinue = [!!booking.serviceSlug, !!booking.consultantId, true, !!booking.date && !!booking.time, true, true][step];
+  const advanceTimer = useRef(0);
+  useEffect(() => () => window.clearTimeout(advanceTimer.current), []);
 
   const go = (target: number) => {
     setDirection(target > step ? 1 : -1);
@@ -51,7 +57,12 @@ export function BookConsultationPage() {
     setDirection(1);
     dispatch(nextStep());
   };
+  const picked = () => {
+    window.clearTimeout(advanceTimer.current);
+    advanceTimer.current = window.setTimeout(next, ADVANCE_DELAY);
+  };
   const back = () => {
+    window.clearTimeout(advanceTimer.current);
     setDirection(-1);
     dispatch(prevStep());
   };
@@ -106,7 +117,7 @@ export function BookConsultationPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.22, ease: EASE_OUT }}>
 
-                    {step < steps.length ? <StepComponent /> : <StepReview error={isError} />}
+                    {step < steps.length ? <StepComponent onPicked={AUTO_ADVANCE.has(step) ? picked : undefined} /> : <StepReview error={isError} />}
                   </motion.div>
                 </div>
 
@@ -122,6 +133,8 @@ export function BookConsultationPage() {
                 <Button onClick={confirm} loading={isLoading} size="lg">
                       {isLoading ? t('book.submitting') : t('book.confirm')}
                     </Button> :
+                AUTO_ADVANCE.has(step) ?
+                null :
 
                 <Button onClick={next} disabled={!canContinue} arrow>
                       {t('book.continue')}

@@ -46,7 +46,8 @@ export const markets: Market[] = [
 { id: 'kuwait', name: { ar: 'الكويت', en: 'Kuwait' }, lon: 47.98, lat: 29.37 },
 { id: 'bahrain', name: { ar: 'البحرين', en: 'Bahrain' }, lon: 50.58, lat: 26.22 },
 { id: 'oman', name: { ar: 'عُمان', en: 'Oman' }, lon: 58.4, lat: 23.59 },
-{ id: 'egypt', name: { ar: 'مصر', en: 'Egypt' }, lon: 31.24, lat: 30.04 }];
+{ id: 'egypt', name: { ar: 'مصر', en: 'Egypt' }, lon: 31.24, lat: 30.04 },
+{ id: 'turkey', name: { ar: 'تركيا', en: 'Türkiye' }, lon: 28.98, lat: 41.01 }];
 
 
 export const consultants: Consultant[] = [

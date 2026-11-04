@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { cn } from '../lib/cn';
 import { EASE_OUT } from './variants';
+import { brandWordMask } from '../lib/brand';
 
 type Tag = 'h1' | 'h2' | 'h3' | 'p' | 'span';
 
@@ -25,6 +26,7 @@ interface SplitTextProps {
 export function SplitText({ text, as = 'h2', className, delay = 0, trigger = 'view', active, instant = false }: SplitTextProps) {
   const reduce = useReducedMotion();
   const words = text.split(/\s+/).filter(Boolean);
+  const brand = brandWordMask(words);
   const MotionTag = motion[as] as typeof motion.h2;
   const triggerProps =
   active !== undefined ?
@@ -44,7 +46,7 @@ export function SplitText({ text, as = 'h2', className, delay = 0, trigger = 'vi
       <Fragment key={`${word}-${i}`}>
           <span aria-hidden className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em] align-bottom">
             <motion.span
-            className="inline-block will-change-transform"
+            className={cn('inline-block will-change-transform', brand[i] && 'text-accent-ink')}
             variants={{
               hidden: reduce ? { opacity: 0 } : { y: '110%', transition: { duration: 0.15 } },
               visible: { y: 0, opacity: 1, transition: { duration: 0.3, ease: EASE_OUT } }

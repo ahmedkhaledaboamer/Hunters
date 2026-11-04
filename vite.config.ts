@@ -142,7 +142,7 @@ function heroShell(): Plugin {
     return `<section class="hero-shell hero-shell-${lang} relative h-[100svh] min-h-[680px] overflow-hidden">
         <div class="mx-auto w-full px-5 sm:px-8 lg:px-12 max-w-[1680px] relative flex h-full flex-col justify-center-safe pb-44 pt-28">
           <p class="eyebrow flex items-center gap-3"><span dir="ltr" class="text-muted tabular-nums">01</span><span aria-hidden="true" class="h-0.5 w-6 rounded-full bg-lime-500"></span><span>${escapeHtml(eyebrow)}</span></p>
-          <h1 class="text-balance mt-7 max-w-6xl text-display [font-size:min(var(--text-display),10.5svh)] font-extralight tracking-[-0.035em] text-fg rtl:font-light rtl:leading-[1.2] rtl:tracking-normal">${escapeHtml(slide.title[lang])}</h1>
+          <h1 class="text-balance mt-7 max-w-6xl text-display [font-size:min(var(--text-display),9svh)] font-extralight tracking-[-0.035em] text-fg rtl:font-light rtl:leading-[1.2] rtl:tracking-normal">${escapeHtml(slide.title[lang])}</h1>
           <p class="mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">${escapeHtml(slide.subtitle[lang])}</p>
           <div class="mt-10 flex flex-wrap gap-3">
             <a href="/book-consultation" class="${buttonClass('primary', 'lg')}"><span>${escapeHtml(t.nav.book)}</span>${arrow}</a>

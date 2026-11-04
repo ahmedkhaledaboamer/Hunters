@@ -8,7 +8,8 @@ import { QueryState } from '../../shared/ui/QueryState';
 import { CardSkeletonGrid } from '../../shared/ui/Skeleton';
 import { SelectableCard } from './SelectableCard';
 
-export function StepService() {
+/** onPicked: called after a choice, so the wizard can move on by itself. */
+export function StepService({ onPicked }: {onPicked?: () => void;}) {
   const { t } = useTranslation();
   const l = useL();
   const dispatch = useAppDispatch();
@@ -30,7 +31,7 @@ export function StepService() {
               {(query.data ?? []).map((s) => {
               const Icon = icons[s.icon];
               return (
-                <SelectableCard key={s.slug} selected={selected === s.slug} onSelect={() => dispatch(selectService(s.slug))}>
+                <SelectableCard key={s.slug} selected={selected === s.slug} onSelect={() => {dispatch(selectService(s.slug));onPicked?.();}}>
                     <Icon className="size-5 text-accent-ink" strokeWidth={1.5} aria-hidden />
                     <span className="mt-4 pe-6 text-[15px] font-medium text-fg">{l(s.title)}</span>
                     <span className="mt-1 text-xs leading-relaxed text-muted">{l(s.short)}</span>

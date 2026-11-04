@@ -10,7 +10,7 @@ import { CustomCursor } from './CustomCursor';
 import { RouteProgress } from './RouteProgress';
 import { FloatingCta } from './FloatingCta';
 import { LogoMark } from '../ui/Logo';
-import { BackToTop, ScrollProgress, SmoothScroll } from './SmoothScroll';
+import { BackToTop, HashScroll, ScrollProgress, SmoothScroll } from './SmoothScroll';
 import { WhatsAppButton } from './WhatsAppButton';
 
 /** Keeps the outgoing page's element stable while it animates out. */
@@ -48,11 +48,13 @@ export function RootLayout() {
         {t('nav.skip')}
       </a>
       <SmoothScroll />
+      <HashScroll />
       <ScrollProgress />
       <RouteProgress />
       <Header />
       <LayoutGroup>
-        <main id="main" tabIndex={-1} className="relative min-h-screen outline-none">
+        {/* overflow-clip: the outgoing page (absolutely positioned while it fades out) can never stretch the document below the footer. */}
+        <main id="main" tabIndex={-1} className="relative min-h-screen overflow-clip outline-none">
           <AnimatePresence mode="popLayout" initial={false}>
             <PageFrame key={location.pathname}>
               <FrozenOutlet />

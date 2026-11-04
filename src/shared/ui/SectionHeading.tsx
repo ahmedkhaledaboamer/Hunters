@@ -3,6 +3,7 @@ import { cn } from '../lib/cn';
 import { useLabel } from '../../i18n/labels';
 import { Reveal } from '../motion/Reveal';
 import { SplitText } from '../motion/SplitText';
+import { brandify } from '../lib/brand';
 
 interface SectionHeadingProps {
   eyebrow: string;
@@ -44,7 +45,7 @@ export function SectionHeading({ eyebrow, index, title, description, align = 'st
         </div>
         {description &&
         <Reveal delay={0.1}>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted text-pretty">{description}</p>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted text-pretty">{brandify(description)}</p>
           </Reveal>
         }
       </div>

@@ -19,7 +19,7 @@ function useLocalTimeLabel() {
   );
 }
 
-export function StepDateTime() {
+export function StepDateTime({ onPicked }: {onPicked?: () => void;}) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { date, time, showLocalTime } = useAppSelector((s) => s.booking);
@@ -72,7 +72,7 @@ export function StepDateTime() {
                     role="radio"
                     aria-checked={selected}
                     disabled={!slot.available}
-                    onClick={() => dispatch(setTime(slot.time))}
+                    onClick={() => {dispatch(setTime(slot.time));onPicked?.();}}
                     className={cn(
                       'flex min-h-12 flex-col items-center justify-center rounded-xl border px-2 py-2 text-sm tabular-nums transition-[border-color,background-color] duration-150',
                       selected ?
