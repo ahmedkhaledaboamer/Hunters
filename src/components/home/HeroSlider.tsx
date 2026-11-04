@@ -21,7 +21,9 @@ export function HeroSlider() {
   const l = useL();
   const rtl = useIsRtl();
   const reduce = useReducedMotion();
-  const [emblaRef, api] = useEmblaCarousel({ loop: false, direction: rtl ? 'rtl' : 'ltr', duration: 32 });
+  // The track always runs left-to-right so the next slide enters from the right in both languages;
+  // each slide's content keeps the page direction (see dir on the slide below).
+  const [emblaRef, api] = useEmblaCarousel({ loop: false, direction: 'ltr', duration: 32 });
   const [selected, setSelected] = useState(0);
   const [paused, setPaused] = useState(false);
   const progress = useMotionValue(0);
@@ -34,7 +36,7 @@ export function HeroSlider() {
     };
     const onParallax = () => {
       const scroll = api.scrollProgress();
-      const sign = rtl ? 1 : -1;
+      const sign = -1;
       api.scrollSnapList().forEach((snap, i) => {
         const layer = api.slideNodes()[i]?.querySelector<HTMLElement>('[data-parallax]');
         if (layer) layer.style.transform = `translate3d(${(snap - scroll) * sign * PARALLAX}%,0,0)`;
@@ -46,7 +48,7 @@ export function HeroSlider() {
     return () => {
       api.off('select', onSelect).off('reInit', onSelect).off('scroll', onParallax).off('reInit', onParallax);
     };
-  }, [api, progress, rtl]);
+  }, [api, progress]);
 
   // Autoplay with a visible timer, paused on hover / focus / hidden tab.
   useEffect(() => {
@@ -89,7 +91,7 @@ export function HeroSlider() {
       <div aria-hidden className="pointer-events-none absolute inset-0 z-[1] bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,#000_10%,transparent_70%)]" />
       <div aria-hidden className="pointer-events-none absolute -bottom-1/2 start-[10%] z-[1] size-[1000px] rounded-full glow-radial" />
 
-      <div ref={emblaRef} className="relative z-[2] h-full overflow-hidden">
+      <div ref={emblaRef} dir="ltr" className="relative z-[2] h-full overflow-hidden">
         <div className="flex h-full touch-pan-y">
           {heroSlides.map((slide, i) => {
             const active = i === selected;
@@ -101,6 +103,7 @@ export function HeroSlider() {
                 aria-roledescription="slide"
                 aria-label={`${i + 1} / ${heroSlides.length}`}
                 aria-hidden={!active}
+                dir={rtl ? 'rtl' : 'ltr'}
                 className="relative h-full min-w-0 flex-[0_0_100%] overflow-hidden">
                 
                 <div data-parallax className="absolute inset-y-0 -inset-x-[20%] will-change-transform">
