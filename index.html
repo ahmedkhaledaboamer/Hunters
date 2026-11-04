@@ -30,6 +30,12 @@
     <style>
       .hero-shell{display:none}[lang=ar] .hero-shell-ar,[lang=en] .hero-shell-en{display:block}
       .no-shell .hero-shell{display:none!important}
+      /* Load bar: a 2px line on top of the page (never covers content, so it costs nothing in speed). */
+      #hh-load{position:fixed;inset-inline:0;top:0;z-index:200;height:2px;background:#d7f71e;box-shadow:0 0 10px rgb(215 247 30/.7);transform-origin:left;transform:scaleX(0);animation:hh-load 2.4s cubic-bezier(.1,.7,.2,1) forwards;pointer-events:none;transition:transform .25s ease,opacity .35s ease .2s}
+      [dir=rtl] #hh-load{transform-origin:right}
+      #hh-load.done{transform:scaleX(1);opacity:0;animation:none}
+      @keyframes hh-load{to{transform:scaleX(.85)}}
+      @media (prefers-reduced-motion:reduce){#hh-load{display:none}}
     </style>
     <link rel="canonical" href="%VITE_SITE_URL%/" />
 
@@ -75,6 +81,14 @@
     </script>
   </head>
   <body>
+    <div id="hh-load" aria-hidden="true"></div>
+    <script>
+      (function () {
+        var bar = document.getElementById('hh-load');
+        function done() { bar.classList.add('done'); setTimeout(function () { bar.remove(); }, 700); }
+        if (document.readyState === 'complete') done(); else window.addEventListener('load', done, { once: true });
+      })();
+    </script>
     <div id="root"></div>
     <noscript>
       <h1>H HUNTERS Technology Solutions</h1>

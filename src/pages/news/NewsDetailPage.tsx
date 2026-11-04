@@ -48,7 +48,7 @@ export function NewsDetailPage() {
       <article>
         <Container className="max-w-4xl pb-10 pt-36 md:pt-44">
           <Badge tone="accent">{t(`news.categories.${a.category}`)}</Badge>
-          <h1 className="mt-6 text-4xl font-light leading-tight md:text-6xl">{brandify(l(a.title))}</h1>
+          <h1 className="mt-6 text-headline font-light leading-tight">{brandify(l(a.title))}</h1>
           <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
             <span>{l(a.author)}</span><span aria-hidden>·</span><NewsMeta article={a} />
           </div>

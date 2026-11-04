@@ -125,7 +125,7 @@ export function HeroSlider() {
                     instant={i === 0}
                     delay={0.1}
                     text={l(slide.title)}
-                    className="mt-7 max-w-6xl text-display [font-size:min(var(--text-display),9svh)] font-extralight tracking-[-0.035em] text-fg rtl:font-light rtl:leading-[1.2] rtl:tracking-normal" />
+                    className="mt-7 max-w-6xl text-display font-extralight tracking-[-0.035em] text-fg rtl:font-light rtl:leading-[1.2] rtl:tracking-normal" />
                   
                   <motion.p
                     initial={false}

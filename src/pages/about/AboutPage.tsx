@@ -151,7 +151,7 @@ function EditorialBlock({ id, eyebrow, index, title, children, last }: Editorial
         <div className="lg:sticky lg:top-36 lg:self-start">
           <Eyebrow index={index}>{eyebrow}</Eyebrow>
           <div id={`${id}-title`}>
-            <SplitText text={title} className="mt-5 text-4xl font-light tracking-tight md:text-5xl rtl:leading-[1.3] rtl:tracking-normal" />
+            <SplitText text={title} className="mt-5 text-headline font-light tracking-tight rtl:leading-[1.2] rtl:tracking-normal" />
           </div>
         </div>
         <div className="flex flex-col gap-8">{children}</div>
