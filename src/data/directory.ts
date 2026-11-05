@@ -34,9 +34,9 @@ export const headquarters: Location = {
   country: { ar: 'الإمارات العربية المتحدة', en: 'United Arab Emirates' },
   address: { ar: '[يُضاف العنوان] — أبوظبي، الإمارات العربية المتحدة', en: '[Address to be added] — Abu Dhabi, United Arab Emirates' },
   hours: { ar: 'الإثنين – الجمعة · ٩:٠٠ – ١٨:٠٠ (توقيت الخليج)', en: 'Monday – Friday · 9:00 – 18:00 GST' },
-  lon: 54.37,
-  lat: 24.45,
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Abu+Dhabi+United+Arab+Emirates',
+  lon: 54.3853727,
+  lat: 24.4668425,
+  mapsUrl: 'https://maps.app.goo.gl/it2Z6sVmT6TTNjJ36',
   image: "/6e2472fd-9929-4b77-a155-2ecbbbacc28f.webp"
 };
 
@@ -72,7 +72,7 @@ export const contactInfo = {
   /** International number without + or spaces, for wa.me links. */
   whatsapp: '971509782770',
   /** Still a placeholder (bracketed); hidden in the UI until confirmed. */
-  website: '[www.hhunters.ae]'
+  website: '[website]'
 };
 
 /** Dialable form of a display phone number, for tel: links. */

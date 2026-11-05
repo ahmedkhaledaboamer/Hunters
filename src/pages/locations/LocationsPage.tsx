@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Clock, MapPin, Navigation } from 'lucide-react';
 import { RegionMap } from '../../components/location/RegionMap';
 import { useGetLocationQuery } from '../../features/content/contentApi';
-import { useL } from '../../features/preferences/usePreferences';
+import { useL, useLocale } from '../../features/preferences/usePreferences';
 import { useSeo } from '../../shared/lib/useSeo';
 import { PageHero } from '../../shared/ui/PageHero';
 import { Section } from '../../shared/ui/Section';
@@ -11,11 +11,11 @@ import { QueryState } from '../../shared/ui/QueryState';
 import { Skeleton } from '../../shared/ui/Skeleton';
 import { buttonClass } from '../../shared/ui/buttonClass';
 import { RevealGroup, RevealItem } from '../../shared/motion/Reveal';
-import { photoSrcSet } from '../../shared/lib/image';
 
 export function LocationsPage() {
   const { t } = useTranslation();
   const l = useL();
+  const locale = useLocale();
   useSeo(t('nav.locations'), t('locations.lead'));
   const query = useGetLocationQuery();
   const advantages = t('locations.advantages', { returnObjects: true }) as {title: string;body: string;}[];
@@ -58,9 +58,14 @@ export function LocationsPage() {
                       <Navigation className="size-4" aria-hidden />{t('common.getDirections')}
                     </a>
                   </div>
-                  <div className="relative min-h-72 bg-ink-900">
-                    <img src={data.office.image} srcSet={photoSrcSet(data.office.image)} sizes="(min-width: 1024px) 50vw, 100vw" alt="" loading="lazy" className="absolute inset-0 size-full object-cover opacity-70" />
-                    <span className="absolute bottom-4 start-4 rounded-full bg-ink-950/70 px-3 py-1.5 text-xs text-white backdrop-blur">{t('locations.mapPlaceholder')}</span>
+                  <div className="relative min-h-80 bg-ink-900">
+                    {/* Live map at the office. Lazy: only loads when scrolled near, and only on this page. */}
+                    <iframe
+                      title={t('locations.officeTitle')}
+                      src={`https://www.google.com/maps?q=${data.office.lat},${data.office.lon}&z=16&hl=${locale}&output=embed`}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="absolute inset-0 size-full border-0 dark:[filter:invert(90%)_hue-rotate(180deg)_saturate(0.8)]" />
                   </div>
                 </div>
               </Section>

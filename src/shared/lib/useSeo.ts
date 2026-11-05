@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { i18n } from '../../i18n';
 
 const SUFFIX = 'H HUNTERS Technology Solutions';
-export const SITE_URL = (import.meta.env.VITE_SITE_URL ?? 'https://hhunters.ae').replace(/\/$/, '');
+/** The site's own address. Optional VITE_SITE_URL pins a domain; otherwise whatever address serves the page. */
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || window.location.origin).replace(/\/$/, '');
 const DEFAULT_IMAGE = '/og-image.jpg';
 
 interface SeoOptions {

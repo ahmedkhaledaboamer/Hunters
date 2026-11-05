@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { Briefcase, CalendarDays, Globe, Mail, MapPin, Phone } from 'lucide-react';
-import { contactInfo, isPlaceholder, telHref } from '../../data/directory';
+import { contactInfo, headquarters, isPlaceholder, telHref } from '../../data/directory';
 import { useSubmitFormMutation } from '../../features/content/contentApi';
 import { makeContactSchema } from '../../features/forms/schemas';
 import { useSeo } from '../../shared/lib/useSeo';
@@ -36,7 +36,7 @@ export function ContactPage() {
   { icon: Briefcase, label: t('contact.hrEmail'), value: contactInfo.hrEmail, href: `mailto:${contactInfo.hrEmail}`, ltr: true },
   { icon: Phone, label: t('contact.phone'), value: contactInfo.phone, href: telHref(contactInfo.phone), ltr: true },
   { icon: Globe, label: t('contact.website'), value: contactInfo.website, href: `https://${contactInfo.website}`, ltr: true },
-  { icon: MapPin, label: t('contact.location'), value: t('brand.location'), href: undefined, ltr: false }].
+  { icon: MapPin, label: t('contact.location'), value: t('brand.location'), href: headquarters.mapsUrl, ltr: false }].
   filter((i) => !isPlaceholder(i.value));
 
 
@@ -72,7 +72,7 @@ export function ContactPage() {
                 {info.map((i) =>
                 <div key={i.label} className="flex items-center gap-4 py-4">
                     <i.icon className="size-5 shrink-0 text-accent-ink" aria-hidden />
-                    <div><dt className="text-xs text-muted">{i.label}</dt><dd className="mt-0.5 text-fg" dir={i.ltr ? 'ltr' : undefined}>{i.href ? <a href={i.href} className="transition-colors duration-150 hover:text-accent-ink">{i.value}</a> : i.value}</dd></div>
+                    <div><dt className="text-xs text-muted">{i.label}</dt><dd className="mt-0.5 text-fg" dir={i.ltr ? 'ltr' : undefined}>{i.href ? <a href={i.href} {...(i.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="transition-colors duration-150 hover:text-accent-ink">{i.value}</a> : i.value}</dd></div>
                   </div>
                 )}
               </dl>

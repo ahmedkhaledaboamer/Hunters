@@ -22,6 +22,11 @@ function seoFiles(siteUrl: string): Plugin {
     name: 'seo-files',
     apply: 'build',
     generateBundle() {
+      if (!siteUrl) {
+        // No fixed domain yet: a sitemap needs absolute URLs, so emit only robots.txt.
+        this.emitFile({ type: 'asset', fileName: 'robots.txt', source: 'User-agent: *\nAllow: /\n' })
+        return
+      }
       const routes = [
         ...staticRoutes.map((path) => ({ path, lastmod: undefined as string | undefined })),
         ...services.map((s) => ({ path: `/services/${s.slug}`, lastmod: undefined })),
@@ -136,11 +141,39 @@ const escapeHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
 function heroShell(): Plugin {
   const slide = heroSlides[0]
   const arrow = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 rtl:-scale-x-100"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>'
+  const icon = (body: string, cls = 'size-[18px]') =>
+    `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="${cls}">${body}</svg>`
+  const chevron = icon('<path d="m6 9 6 6 6-6"/>', 'size-3.5')
+  const ctrl = 'inline-flex size-10 items-center justify-center rounded-full border border-line text-fg'
+  // Static twin of Header.tsx (same classes) so the first paint already shows the full top bar.
+  const header = (lang: 'ar' | 'en') => {
+    const t = lang === 'ar' ? ar : en
+    const nav = (['services', 'solutions', 'industries', 'howWeWork', 'company', 'news', 'contact'] as const).map((key) => {
+      const mega = ['services', 'solutions', 'industries', 'company'].includes(key)
+      return `<li><span class="relative whitespace-nowrap rounded-full px-3.5 py-2 text-sm text-muted ${mega ? 'flex items-center gap-1' : 'block'}">${escapeHtml(t.nav[key])}${mega ? chevron : ''}</span></li>`
+    }).join('')
+    return `<header class="fixed inset-x-0 top-0 z-50"><div class="relative border-b border-transparent">
+          <div class="mx-auto w-full px-5 sm:px-8 lg:px-12 max-w-[1680px] flex h-18 items-center gap-4">
+            <a href="/" class="shrink-0 rounded-md"><span class="inline-flex items-center gap-3" dir="ltr">
+              <svg viewBox="0 0 112 100" class="h-8 w-auto" aria-hidden="true"><g class="fill-lime-500 stroke-ink-950/70 stroke-[1.5] [paint-order:stroke] dark:stroke-0"><rect x="34" y="4" width="15" height="92" rx="7.5"/><rect x="76" y="6" width="15" height="86" rx="7.5"/><rect x="16" y="43" width="90" height="13" rx="3"/></g><circle cx="13" cy="49.5" r="10" class="fill-lime-500 stroke-ink-950/70 stroke-[1.5] [paint-order:stroke] dark:stroke-0"/></svg>
+              <span class="flex flex-col leading-none"><span class="font-latin text-lg font-extralight tracking-[0.28em] text-fg">HUNTERS</span></span></span></a>
+            <nav class="ms-6 hidden xl:block"><ul class="flex items-center gap-0.5">${nav}</ul></nav>
+            <div class="ms-auto flex items-center gap-2">
+              <span class="${ctrl}">${icon('<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>')}</span>
+              <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full border border-line px-3 text-sm font-medium text-fg ${lang === 'ar' ? 'font-latin tracking-wider' : 'font-arabic'}">${escapeHtml(t.prefs.switchLanguage)}</span>
+              <span class="${ctrl} hidden sm:inline-flex"><span class="hidden dark:inline-flex">${icon('<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>')}</span><span class="inline-flex dark:hidden">${icon('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>')}</span></span>
+              <a href="/book-consultation" class="${buttonClass('primary', 'sm', 'hidden h-10 sm:inline-flex')}"><span>${escapeHtml(t.nav.book)}</span>${arrow}</a>
+              <span class="${ctrl} xl:hidden">${icon('<path d="M4 6h16M4 12h16M4 18h16"/>', 'size-5')}</span>
+            </div>
+          </div></div></header>`
+  }
   const render = (lang: 'ar' | 'en') => {
     const t = lang === 'ar' ? ar : en
     const eyebrow = lang === 'ar' ? arLabels[slide.eyebrow] ?? slide.eyebrow : slide.eyebrow
-    return `<section class="hero-shell hero-shell-${lang} relative h-[100svh] min-h-[680px] overflow-hidden">
-        <div class="mx-auto w-full px-5 sm:px-8 lg:px-12 max-w-[1680px] relative flex h-full flex-col justify-center-safe pb-44 pt-28">
+    return `<div class="hero-shell hero-shell-${lang}">${header(lang)}<section class="relative h-[100svh] min-h-[680px] overflow-hidden">
+        <div aria-hidden="true" class="pointer-events-none absolute inset-0 z-[1] bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,#000_10%,transparent_70%)]"></div>
+        <div aria-hidden="true" class="pointer-events-none absolute -bottom-1/2 start-[10%] z-[1] size-[1000px] rounded-full glow-radial"></div>
+        <div class="z-[2] mx-auto w-full px-5 sm:px-8 lg:px-12 max-w-[1680px] relative flex h-full flex-col justify-center-safe pb-44 pt-28">
           <p class="eyebrow flex items-center gap-3"><span dir="ltr" class="text-muted tabular-nums">01</span><span aria-hidden="true" class="h-0.5 w-6 rounded-full bg-lime-500"></span><span>${escapeHtml(eyebrow)}</span></p>
           <h1 class="text-balance mt-7 max-w-6xl text-display font-extralight tracking-[-0.035em] text-fg rtl:font-light rtl:leading-[1.2] rtl:tracking-normal">${escapeHtml(slide.title[lang])}</h1>
           <p class="mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">${escapeHtml(slide.subtitle[lang])}</p>
@@ -149,7 +182,7 @@ function heroShell(): Plugin {
             <a href="/solutions" class="${buttonClass('ghost', 'lg')}"><span>${escapeHtml(t.common.exploreSolutions)}</span></a>
           </div>
         </div>
-      </section>`
+      </section></div>`
   }
   return {
     name: 'hero-shell',
@@ -161,7 +194,8 @@ function heroShell(): Plugin {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const siteUrl = (loadEnv(mode, process.cwd(), '').VITE_SITE_URL || 'https://hhunters.ae').replace(/\/$/, '')
+  // Optional: set VITE_SITE_URL (e.g. on Vercel) once the domain is final; sitemap.xml needs absolute URLs.
+  const siteUrl = (loadEnv(mode, process.cwd(), '').VITE_SITE_URL || '').replace(/\/$/, '')
 
   return {
     plugins: [react(), tailwindcss(), heroShell(), seoFiles(siteUrl), inlineCss(), bootAfterPaint()],
