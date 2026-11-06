@@ -17,7 +17,7 @@ export function GovernancePage() {
 
   return (
     <>
-      <PageHero eyebrow="GOVERNANCE & TRUST" title={t('governance.title')} lead={t('governance.lead')} />
+      <PageHero eyebrow="SECURITY & TRUST" title={t('governance.title')} lead={t('governance.lead')} />
       <Section className="pt-0 md:pt-0 lg:pt-0" aria-labelledby="practices-title">
         <h2 id="practices-title" className="text-lg text-muted">
           {t('governance.practicesLead')}

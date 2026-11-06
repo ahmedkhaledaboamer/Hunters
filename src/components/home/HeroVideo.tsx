@@ -6,7 +6,7 @@ type NetworkInfo = {saveData?: boolean;effectiveType?: string;};
 
 /**
  * Fixed background video behind the hero slides (only the slide content moves).
- * Costs nothing up front: it mounts after the page has loaded and the browser is idle. Phones, reduced motion,
+ * Costs nothing up front: it mounts after the page has loaded and the browser is idle. Reduced motion,
  * Data Saver and 2G get the still poster (50 KB) instead of the video.
  */
 export function HeroVideo() {
@@ -17,9 +17,7 @@ export function HeroVideo() {
 
   useEffect(() => {
     const connection = (navigator as Navigator & {connection?: NetworkInfo;}).connection;
-    // Phones get the still frame: decoding video on a phone CPU competes with the page and costs mobile data.
-    const small = !window.matchMedia('(min-width: 768px)').matches;
-    const still = reduce || small || connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? '');
+    const still = reduce || connection?.saveData || /(^|-)2g$/.test(connection?.effectiveType ?? '');
     let idle = 0;
     const show = () => setMode(still ? 'poster' : 'video');
     const start = () => {

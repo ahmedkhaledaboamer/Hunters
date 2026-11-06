@@ -14,7 +14,7 @@ export const arLabels: Record<string, string> = {
   CONTACT: 'تواصل معنا',
   'CORE EXPERTISE': 'مجالات التخصص',
   'EXECUTIVE INTELLIGENCE': 'الذكاء التنفيذي',
-  'GOVERNANCE & TRUST': 'الحوكمة والثقة',
+  'SECURITY & TRUST': 'الأمان والثقة',
   'H HUNTERS': 'اتش هانترز',
   'H HUNTERS SOLUTIONS': 'حلول اتش هانترز',
   'H HUNTERS TECHNOLOGY SOLUTIONS': 'اتش هانترز لحلول التكنولوجيا',

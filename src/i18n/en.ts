@@ -18,7 +18,7 @@ export const en = {
     history: 'Our History',
     partners: 'Partnerships',
     locations: 'Location',
-    governance: 'Governance & Trust',
+    governance: 'Security & Trust',
     careers: 'Careers',
     book: 'Book a Consultation',
     menu: 'Open menu',
@@ -383,7 +383,7 @@ export const en = {
     viewRole: 'View role'
   },
   governance: {
-    title: 'Governance, security & privacy',
+    title: 'Security & Trust',
     lead: 'We account for technology governance and information protection in how we design and deliver solutions.',
     practicesLead: 'Practices that can be adopted according to project scope:',
     closing: 'We define the required controls together with the client — based on the nature of the data, the sector, and regulatory and contractual requirements — without claiming any accreditation or certification the company does not hold.'
