@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { heroSlides } from '../../data/company';
 import { useIsRtl, useL } from '../../features/preferences/usePreferences';
-import { NetworkCanvas } from '../../shared/visual/NetworkCanvas';
+import { HeroVideo } from './HeroVideo';
 import { SplitText } from '../../shared/motion/SplitText';
 import { Container } from '../../shared/ui/Container';
 import { Button } from '../../shared/ui/Button';
@@ -14,7 +14,6 @@ import { cn } from '../../shared/lib/cn';
 import { EASE_OUT } from '../../shared/motion/variants';
 
 const SLIDE_MS = 7000;
-const PARALLAX = 30;
 
 export function HeroSlider() {
   const { t } = useTranslation();
@@ -34,19 +33,10 @@ export function HeroSlider() {
       setSelected(api.selectedScrollSnap());
       progress.set(0);
     };
-    const onParallax = () => {
-      const scroll = api.scrollProgress();
-      const sign = -1;
-      api.scrollSnapList().forEach((snap, i) => {
-        const layer = api.slideNodes()[i]?.querySelector<HTMLElement>('[data-parallax]');
-        if (layer) layer.style.transform = `translate3d(${(snap - scroll) * sign * PARALLAX}%,0,0)`;
-      });
-    };
     onSelect();
-    onParallax();
-    api.on('select', onSelect).on('reInit', onSelect).on('scroll', onParallax).on('reInit', onParallax);
+    api.on('select', onSelect).on('reInit', onSelect);
     return () => {
-      api.off('select', onSelect).off('reInit', onSelect).off('scroll', onParallax).off('reInit', onParallax);
+      api.off('select', onSelect).off('reInit', onSelect);
     };
   }, [api, progress]);
 
@@ -88,8 +78,14 @@ export function HeroSlider() {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}>
       
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-[1] bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,#000_10%,transparent_70%)]" />
-      <div aria-hidden className="pointer-events-none absolute -bottom-1/2 start-[10%] z-[1] size-[1000px] rounded-full glow-radial" />
+      {/* Fixed background: one video behind every slide (only the slide content moves), toned for legible text. */}
+      <div aria-hidden className="absolute inset-0 z-0">
+        <HeroVideo />
+        <div className="absolute inset-0 bg-linear-to-r from-bg/75 via-bg/25 via-45% to-transparent rtl:bg-linear-to-l dark:from-bg/95 dark:via-bg/65 dark:via-50% dark:to-bg/25" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-linear-to-b from-transparent via-bg/60 to-bg dark:h-64 dark:via-bg/70" />
+      </div>
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-[1] bg-grid opacity-30 dark:opacity-60 [mask-image:radial-gradient(ellipse_at_center,#000_10%,transparent_70%)]" />
+      <div aria-hidden className="pointer-events-none absolute -bottom-1/2 start-[10%] z-[1] hidden size-[1000px] rounded-full glow-radial dark:block" />
 
       <div ref={emblaRef} dir="ltr" className="relative z-[2] h-full overflow-hidden">
         <div className="flex h-full touch-pan-y">
@@ -106,11 +102,6 @@ export function HeroSlider() {
                 dir={rtl ? 'rtl' : 'ltr'}
                 className="relative h-full min-w-0 flex-[0_0_100%] overflow-hidden">
                 
-                <div data-parallax className="absolute inset-y-0 -inset-x-[20%] will-change-transform">
-                  <NetworkCanvas scene={slide.scene} active={Math.abs(i - selected) <= 1} />
-                </div>
-                {/* Fade the canvas into the page background (under the content) so the hero has no hard bottom edge. */}
-                <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-b from-transparent via-bg/70 to-bg" />
                 <Container wide className="relative flex h-full flex-col justify-center-safe pb-44 pt-28">
                   <motion.div
                     initial={false}
